@@ -1,0 +1,69 @@
+{
+    "results": [
+        {
+            "result": "ok",
+            "data": {
+                "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                "type": "manga",
+                "attributes": {
+                    "title": {
+                        "property1": "string",
+                        "property2": "string"
+                    },
+                    "altTitles": [
+                        {
+                            "property1": "string",
+                            "property2": "string"
+                        }
+                    ],
+                    "description": {
+                        "property1": "string",
+                        "property2": "string"
+                    },
+                    "isLocked": true,
+                    "links": {
+                        "property1": "string",
+                        "property2": "string"
+                    },
+                    "originalLanguage": "string",
+                    "lastVolume": "string",
+                    "lastChapter": "string",
+                    "publicationDemographic": "string",
+                    "status": "string",
+                    "year": 0,
+                    "contentRating": "string",
+                    "tags": [
+                        {
+                            "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                            "type": "tag",
+                            "attributes": {
+                                "name": {
+                                    "property1": "string",
+                                    "property2": "string"
+                                },
+                                "description": {
+                                    "property1": "string",
+                                    "property2": "string"
+                                },
+                                "group": "string",
+                                "version": 1
+                            }
+                        }
+                    ],
+                    "version": 1,
+                    "createdAt": "string",
+                    "updatedAt": "string"
+                }
+            },
+            "relationships": [
+                {
+                    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "limit": 0,
+    "offset": 0,
+    "total": 0
+}
