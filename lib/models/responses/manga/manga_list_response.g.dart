@@ -9,7 +9,7 @@ part of 'manga_list_response.dart';
 MangaListResponse _$MangaListResponseFromJson(Map<String, dynamic> json) {
   return MangaListResponse(
     results: ModelHelper.fromJsonBaseDataWithBaseItemWithManga(
-        json['results'] as List<dynamic>),
+        json['results'] as List),
   )
     ..limit = json['limit'] as int?
     ..offset = json['offset'] as int?

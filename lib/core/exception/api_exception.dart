@@ -1,6 +1,6 @@
-import '../../http/responses/common/error_response.dart';
+import '../../models/responses/common/error_response.dart';
+import 'mangadex_exception.dart';
 
-class ApiException implements Exception {
-  ErrorResponse? error;
-  ApiException({this.error});
+class ApiException extends MangaDexException<ErrorResponse> {
+  ApiException({ErrorResponse? error}) : super(error: error);
 }

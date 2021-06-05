@@ -1,26 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:mangadex/core/constants/http_constants.dart';
+import 'package:mangadex/core/constants/http_urls.dart';
 import 'package:mangadex/core/exception/api_exception.dart';
-import 'package:mangadex/data/data_sourcers/manga/manga_data_source.dart';
-import 'package:mangadex/http/http_urls.dart';
-import 'package:mangadex/http/responses/manga/manga_list_response.dart';
+import 'package:mangadex/data/remote_data/manga/manga_remote_data_source.dart';
+import 'package:mangadex/models/responses/manga/manga_list_response.dart';
 
 import '../../../core/utils.dart/dio_mock.dart';
 import '../../../fixtures/fixtures_reader.dart';
 
 void main() {
-  final dio = DioMock(BaseOptions(baseUrl: HttpConstants.baseUrl)).dio;
+  final DioMock dioMock = DioMock(
+    options: BaseOptions(baseUrl: HttpConstants.baseUrl),
+  );
 
-  final dioAdapter = DioAdapter();
-  dio.httpClientAdapter = dioAdapter;
-
-  final mangaDataSource = MangaDataSource(dio: dio);
+  final mangaDataSource = MangaDataSourceNetwork(dio: dioMock.dio);
 
   group("Get manga list api", () {
-    test("Success", () async {
-      dioAdapter.onGet(HttpUrls.manga, (request) {
+    test("200 status", () async {
+      dioMock.adapter.onGet(HttpUrls.manga, (request) {
         request.reply(200, Fixtures.parse(Fixtures.mangaList), headers: {
           Headers.acceptHeader: ["application/json"]
         });
@@ -28,20 +26,28 @@ void main() {
 
       expect(
         await mangaDataSource.getMangaList(),
-        isA<MangaListResponse>(),
+        isA<MangaListResponse>().having(
+          (res) => res.results,
+          "results",
+          isNotEmpty,
+        ),
       );
     });
 
-    test("Failure", () async {
-      dioAdapter.onGet(HttpUrls.manga, (request) {
-        request.reply(204, Fixtures.parse(Fixtures.error), headers: {
-          Headers.acceptHeader: ["application/json"]
-        });
+    test("400 status", () async {
+      dioMock.adapter.onGet(HttpUrls.manga, (request) {
+        request.throws(
+          400,
+          DioError(
+            requestOptions: RequestOptions(path: HttpUrls.manga),
+            error: Fixtures.parse(Fixtures.error),
+          ),
+        );
       });
 
       expect(
         () => mangaDataSource.getMangaList(),
-        throwsA(isA<ApiException>()),
+        throwsA(isA<ApiException>().having((e) => e.error, "error", isNotNull)),
       );
     });
   });

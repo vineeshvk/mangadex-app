@@ -18,4 +18,9 @@ class ErrorModel {
 
   factory ErrorModel.fromJson(Map<String, dynamic> json) =>
       _$ErrorModelFromJson(json);
+
+  @override
+  String toString() {
+    return 'ErrorModel(id: $id, status: $status, title: $title, detail: $detail)';
+  }
 }

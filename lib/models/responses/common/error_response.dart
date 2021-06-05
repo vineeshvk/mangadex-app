@@ -17,4 +17,7 @@ class ErrorResponse extends BaseResponse {
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
+
+  @override
+  String toString() => 'ErrorResponse(result: $result, errors: $errors)';
 }

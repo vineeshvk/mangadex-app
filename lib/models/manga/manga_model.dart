@@ -14,11 +14,11 @@ class MangaModel {
   final LabelModel description;
 
   final String originalLanguage;
-  final String publicationDemographic;
-  final String status;
-  final int year;
+  final String? publicationDemographic;
+  final String? status;
+  final int? year;
 
-  final String contentRating;
+  final String? contentRating;
 
   @JsonKey(fromJson: ModelHelper.fromJsonBaseItemWithTag)
   final List<BaseItemModel<TagModel>> tags;
