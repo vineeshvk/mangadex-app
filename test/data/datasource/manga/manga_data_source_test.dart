@@ -14,14 +14,16 @@ void main() {
     options: BaseOptions(baseUrl: HttpConstants.baseUrl),
   );
 
-  final mangaDataSource = MangaDataSourceNetwork(dio: dioMock.dio);
+  final mangaDataSource = MangaRemoteDataSource(dio: dioMock.dio);
 
   group("Get manga list api", () {
     test("200 status", () async {
       dioMock.adapter.onGet(HttpUrls.manga, (request) {
-        request.reply(200, Fixtures.parse(Fixtures.mangaList), headers: {
-          Headers.acceptHeader: ["application/json"]
-        });
+        request.reply(
+          200,
+          Fixtures.parse(Fixtures.mangaList),
+          headers: dioMock.acceptedHeaders,
+        );
       });
 
       expect(

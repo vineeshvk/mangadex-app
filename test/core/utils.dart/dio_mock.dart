@@ -7,6 +7,10 @@ class DioMock {
   late final Dio dio;
   late final DioAdapter adapter;
 
+  final acceptedHeaders = {
+    Headers.acceptHeader: ["application/json"]
+  };
+
   DioMock({BaseOptions? options, bool enableLog = false}) {
     dio = Dio(options);
     // dio.options.headers[HttpHeaders.acceptHeader] = Headers.jsonContentType;
