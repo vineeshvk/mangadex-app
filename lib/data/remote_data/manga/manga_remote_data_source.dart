@@ -5,6 +5,7 @@ import '../../../core/exception/exception_handler.dart';
 import '../../../data_sources/manga/manga_data_source.dart';
 import '../../../models/params/manga/manga_list_params.dart';
 import '../../../models/responses/manga/manga_list_response.dart';
+import '../../../models/responses/manga/tag_list_response.dart';
 
 class MangaRemoteDataSource implements MangaDataSource {
   final Dio dio;
@@ -20,6 +21,15 @@ class MangaRemoteDataSource implements MangaDataSource {
       );
 
       return MangaListResponse.fromJson(response.data as Map<String, dynamic>);
+    });
+  }
+
+  @override
+  Future<TagListResponse> getTagList() {
+    return ExceptionHandler.api(() async {
+      final Response response = await dio.get(HttpUrls.tags);
+
+      return TagListResponse.fromJson(response.data as List);
     });
   }
 }

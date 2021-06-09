@@ -1,0 +1,27 @@
+[
+  {
+    "result": "ok",
+    "data": {
+      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+      "type": "tag",
+      "attributes": {
+        "name": {
+          "property1": "string",
+          "property2": "string"
+        },
+        "description": {
+          "property1": "string",
+          "property2": "string"
+        },
+        "group": "string",
+        "version": 1
+      }
+    },
+    "relationships": [
+      {
+        "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+        "type": "string"
+      }
+    ]
+  }
+]

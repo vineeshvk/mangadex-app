@@ -3,6 +3,7 @@ import '../../data_sources/manga/manga_data_source.dart';
 import '../../models/params/manga/manga_list_params.dart';
 import '../../models/responses/base_response.dart';
 import '../../models/responses/manga/manga_list_response.dart';
+import '../../models/responses/manga/tag_list_response.dart';
 
 class MangaRepository {
   MangaDataSource mangaDataSource;
@@ -20,6 +21,14 @@ class MangaRepository {
       );
 
       return mangaList;
+    });
+  }
+
+  Future<BaseResponse<TagListResponse>> getTagList() async {
+    return ExceptionHandler.repo(() async {
+      final TagListResponse tagList = await mangaDataSource.getTagList();
+
+      return tagList;
     });
   }
 }

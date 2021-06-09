@@ -30,7 +30,7 @@ class DioMock {
       InterceptorsWrapper(onRequest: (options, handler) async {
         handler.next(options);
       }, onResponse: (response, handler) {
-        response.data = jsonDecode(response.data.toString()) as Map;
+        response.data = jsonDecode(response.data.toString());
 
         handler.next(response);
       }),
