@@ -4,6 +4,7 @@ import 'package:mangadex/core/constants/http_constants.dart';
 import 'package:mangadex/core/constants/http_urls.dart';
 import 'package:mangadex/core/exception/api_exception.dart';
 import 'package:mangadex/data/remote_data/manga/manga_remote_data_source.dart';
+import 'package:mangadex/data_sources/manga/manga_data_source.dart';
 import 'package:mangadex/models/responses/manga/manga_list_response.dart';
 import 'package:mangadex/models/responses/manga/tag_list_response.dart';
 
@@ -15,7 +16,8 @@ void main() {
     options: BaseOptions(baseUrl: HttpConstants.baseUrl),
   );
 
-  final mangaDataSource = MangaRemoteDataSource(dio: dioMock.dio);
+  final MangaDataSource mangaDataSource =
+      MangaRemoteDataSource(dio: dioMock.dio);
 
   group("Get manga list api", () {
     test("200 status", () async {

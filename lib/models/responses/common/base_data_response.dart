@@ -14,11 +14,11 @@ class BaseDataResponse<T> {
 
   factory BaseDataResponse.fromJson(
     Map<String, dynamic> json,
-    T Function(Map<String, dynamic> json) jsonT,
+    T Function(Map<String, dynamic>? json) jsonT,
   ) =>
       _$BaseDataResponseFromJson(
         json,
-        (object) => jsonT(object! as Map<String, dynamic>),
+        (object) => jsonT(object as Map<String, dynamic>?),
       );
 
   @override

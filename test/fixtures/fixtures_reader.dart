@@ -7,6 +7,8 @@ class Fixtures {
   static const mangaList = "manga/manga_list.json";
   static const tagList = "manga/tag_list.json";
 
+  static const status = "common/status.json";
+
   static const token = "auth/token_fixtures.json";
 
   static Map<String, dynamic> parse(String name) {

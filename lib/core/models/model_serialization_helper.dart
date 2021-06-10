@@ -11,7 +11,7 @@ abstract class ModelHelper {
           (json1) => BaseDataResponse.fromJson(
             json1 as Map<String, dynamic>,
             (json2) => BaseItemModel.fromJson(
-              json2,
+              json2 ?? {},
               (json3) => MangaModel.fromJson(json3),
             ),
           ),
@@ -37,7 +37,7 @@ abstract class ModelHelper {
           (json1) => BaseDataResponse.fromJson(
             json1 as Map<String, dynamic>,
             (json2) => BaseItemModel.fromJson(
-              json2,
+              json2 ?? {},
               (json3) => TagModel.fromJson(json3),
             ),
           ),
