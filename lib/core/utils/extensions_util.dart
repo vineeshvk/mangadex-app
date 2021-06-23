@@ -1,5 +1,5 @@
-import 'package:mangadex/core/constants/manga_constants.dart';
-import 'package:mangadex/models/common/relationship_model.dart';
+import '../../models/common/relationship_model.dart';
+import '../constants/manga_constants.dart';
 
 extension FirstWhereOrNullExtension<E> on Iterable<E> {
   E? firstWhereOrNull(bool Function(E) test) {

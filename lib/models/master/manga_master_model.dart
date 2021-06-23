@@ -1,9 +1,8 @@
-import 'package:mangadex/core/constants/http_constants.dart';
-import 'package:mangadex/data_sources/remote_data/manga/manga_remote_data_source.dart';
-import 'package:mangadex/models/manga/cover_model.dart';
-import 'package:mangadex/models/manga/manga_model.dart';
-
+import '../../core/constants/http_constants.dart';
+import '../../data_sources/remote_data/manga/manga_remote_data_source.dart';
 import '../common/base_item_model.dart';
+import '../manga/cover_model.dart';
+import '../manga/manga_model.dart';
 import '../responses/common/base_data_response.dart';
 
 class MangaMasterModel {

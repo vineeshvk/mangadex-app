@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mangadex/core/constants/manga_constants.dart';
+
+import '../../core/constants/manga_constants.dart';
 
 part 'base_item_model.g.dart';
 

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mangadex/models/common/relationship_model.dart';
+
+import '../../common/relationship_model.dart';
 
 part 'base_data_response.g.dart';
 

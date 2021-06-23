@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:mangadex/core/constants/manga_constants.dart';
-import 'package:mangadex/core/models/model_serialization_helper.dart';
-import 'package:mangadex/models/common/base_item_model.dart';
-import 'package:mangadex/models/manga/cover_model.dart';
-import 'package:mangadex/models/master/manga_master_model.dart';
-import 'package:mangadex/models/responses/common/base_data_response.dart';
 
 import '../../../core/constants/http_urls.dart';
+import '../../../core/constants/manga_constants.dart';
 import '../../../core/exception/exception_handler.dart';
+import '../../../core/models/model_serialization_helper.dart';
 import '../../../core/utils/extensions_util.dart';
+import '../../../models/common/base_item_model.dart';
+import '../../../models/manga/cover_model.dart';
+import '../../../models/master/manga_master_model.dart';
 import '../../../models/params/manga/manga_list_params.dart';
+import '../../../models/responses/common/base_data_response.dart';
 import '../../../models/responses/manga/manga_list_response.dart';
 import '../../../models/responses/manga/tag_list_response.dart';
 
