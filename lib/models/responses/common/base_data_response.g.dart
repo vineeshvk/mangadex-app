@@ -13,5 +13,8 @@ BaseDataResponse<T> _$BaseDataResponseFromJson<T>(
   return BaseDataResponse<T>(
     result: json['result'] as String,
     data: fromJsonT(json['data']),
+    relationships: (json['relationships'] as List<dynamic>?)
+        ?.map((e) => RelationshipModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }

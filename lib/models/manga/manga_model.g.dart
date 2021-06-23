@@ -6,8 +6,8 @@ part of 'manga_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MangaModel _$MangaModelFromJson(Map<String, dynamic> json) {
-  return MangaModel(
+MangaItemModel _$MangaItemModelFromJson(Map<String, dynamic> json) {
+  return MangaItemModel(
     title: LabelModel.fromJson(json['title'] as Map<String, dynamic>),
     altTitles: (json['altTitles'] as List<dynamic>)
         .map((e) => LabelModel.fromJson(e as Map<String, dynamic>))
@@ -23,5 +23,5 @@ MangaModel _$MangaModelFromJson(Map<String, dynamic> json) {
     version: json['version'] as int,
     createdAt: json['createdAt'] as String,
     updatedAt: json['updatedAt'] as String,
-  );
+  )..id = json['id'] as String?;
 }

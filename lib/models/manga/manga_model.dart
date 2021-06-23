@@ -8,7 +8,9 @@ import 'tag_model.dart';
 part 'manga_model.g.dart';
 
 @JsonSerializable(createToJson: false)
-class MangaModel {
+class MangaItemModel {
+  String? id;
+
   final LabelModel title;
   final List<LabelModel> altTitles;
   final LabelModel description;
@@ -27,7 +29,7 @@ class MangaModel {
   final String createdAt;
   final String updatedAt;
 
-  MangaModel({
+  MangaItemModel({
     required this.title,
     required this.altTitles,
     required this.description,
@@ -42,11 +44,17 @@ class MangaModel {
     required this.updatedAt,
   });
 
-  factory MangaModel.fromJson(Map<String, dynamic> json) =>
-      _$MangaModelFromJson(json);
+  factory MangaItemModel.fromJson(Map<String, dynamic> json) =>
+      _$MangaItemModelFromJson(json);
 
   @override
   String toString() {
-    return 'MangaModel(title: $title, altTitles: $altTitles, description: $description, originalLanguage: $originalLanguage, publicationDemographic: $publicationDemographic, status: $status, year: $year, contentRating: $contentRating, tags: $tags, version: $version, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return '''
+    MangaModel(title: $title, altTitles: $altTitles, 
+    description: $description, originalLanguage: $originalLanguage,
+    publicationDemographic: $publicationDemographic, status: $status,
+    year: $year, contentRating: $contentRating, tags: $tags, version: $version,
+    createdAt: $createdAt, updatedAt: $updatedAt)
+      ''';
   }
 }

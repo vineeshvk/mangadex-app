@@ -1,15 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mangadex/models/common/relationship_model.dart';
 
 part 'base_data_response.g.dart';
 
 @JsonSerializable(createToJson: false, genericArgumentFactories: true)
 class BaseDataResponse<T> {
-  String result;
-  T data;
+  final String result;
+  final T data;
+  final List<RelationshipModel>? relationships;
 
   BaseDataResponse({
     required this.result,
     required this.data,
+    required this.relationships,
   });
 
   factory BaseDataResponse.fromJson(

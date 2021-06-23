@@ -44,3 +44,7 @@ enum MangaRelationshipTypes {
   user,
   customList,
 }
+
+enum IncludedModes { and, or }
+
+enum OrderBy { asc, desc }

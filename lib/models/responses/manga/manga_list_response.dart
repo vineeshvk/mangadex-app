@@ -11,7 +11,7 @@ part 'manga_list_response.g.dart';
 @JsonSerializable(createToJson: false)
 class MangaListResponse with BasePaginationResponse {
   @JsonKey(fromJson: ModelHelper.fromJsonBaseDataWithBaseItemWithManga)
-  List<BaseDataResponse<BaseItemModel<MangaModel>>> results;
+  final List<BaseDataResponse<BaseItemModel<MangaItemModel>>> results;
 
   MangaListResponse({
     required this.results,

@@ -1,19 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'base_item_model.dart';
+part of 'relationship_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BaseItemModel<T> _$BaseItemModelFromJson<T>(
-  Map<String, dynamic> json,
-  T Function(Object? json) fromJsonT,
-) {
-  return BaseItemModel<T>(
+RelationshipModel _$RelationshipModelFromJson(Map<String, dynamic> json) {
+  return RelationshipModel(
     id: json['id'] as String,
     type: _$enumDecode(_$MangaRelationshipTypesEnumMap, json['type']),
-    attributes: fromJsonT(json['attributes']),
   );
 }
 

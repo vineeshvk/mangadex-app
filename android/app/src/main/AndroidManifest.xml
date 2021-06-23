@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mangadex">
+    package="com.vk.mangadex">
    <application
         android:label="mangadex"
         android:icon="@mipmap/ic_launcher">

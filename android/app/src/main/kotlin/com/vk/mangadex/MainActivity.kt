@@ -1,4 +1,4 @@
-package com.example.mangadex
+package com.vk.mangadex
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,22 +1,24 @@
+import 'package:mangadex/data_sources/remote_data/manga/manga_remote_data_source.dart';
+import 'package:mangadex/models/master/manga_master_model.dart';
+
 import '../../core/exception/exception_handler.dart';
-import '../../data_sources/manga/manga_data_source.dart';
 import '../../models/params/manga/manga_list_params.dart';
 import '../../models/responses/base_response.dart';
-import '../../models/responses/manga/manga_list_response.dart';
 import '../../models/responses/manga/tag_list_response.dart';
 
 class MangaRepository {
-  MangaDataSource mangaDataSource;
+  MangaRemoteDataSource mangaDataSource;
 
   MangaRepository({
     required this.mangaDataSource,
   });
 
-  Future<BaseResponse<MangaListResponse>> getMangaList([
+  Future<BaseResponse<List<MangaMasterModel>>> getMangaList([
     MangaListParams? params,
   ]) async {
     return ExceptionHandler.repo(() async {
-      final MangaListResponse mangaList = await mangaDataSource.getMangaList(
+      final List<MangaMasterModel> mangaList =
+          await mangaDataSource.getMangaList(
         params,
       );
 

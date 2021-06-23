@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../../data/constants/common_constants.dart';
-import '../../../data/constants/manga_constants.dart';
+import 'package:mangadex/core/constants/manga_constants.dart';
 
 part 'manga_list_params.g.dart';
 
@@ -26,7 +24,7 @@ class MangaListParams {
   List<String>? includedTags;
 
   /// included tag mode.
-  /// value either [and, or]. 
+  /// value either [and, or].
   /// default value [and]
   @JsonKey(toJson: _includedModesEnumToString)
   IncludedModes? includedTagsMode;

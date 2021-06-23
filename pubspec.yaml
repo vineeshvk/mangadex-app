@@ -1,5 +1,5 @@
 name: mangadex
-description: A new Flutter project.
+description: Mangadex client app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter
   fluttertoast: ^8.0.7
   json_annotation: ^4.0.1
-
+  redis_dart: ^0.1.0+4
   
 
 
