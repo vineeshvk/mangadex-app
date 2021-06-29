@@ -39,6 +39,8 @@ class MangaRemoteDataSource {
             .getRelation(MangaRelationshipTypes.coverArt)
             ?.id;
 
+        mangaModel.getCover(dataSource: this);
+
         return mangaModel;
       });
 

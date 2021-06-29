@@ -23,7 +23,6 @@ void main() {
         request.reply(
           200,
           Fixtures.parse(Fixtures.token),
-          headers: dioMock.acceptedHeaders,
         );
       }, data: data);
 

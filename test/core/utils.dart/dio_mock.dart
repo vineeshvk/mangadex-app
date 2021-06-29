@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
@@ -29,10 +27,6 @@ class DioMock {
     dio.interceptors.add(
       InterceptorsWrapper(onRequest: (options, handler) async {
         handler.next(options);
-      }, onResponse: (response, handler) {
-        response.data = jsonDecode(response.data.toString());
-
-        handler.next(response);
       }),
     );
   }
