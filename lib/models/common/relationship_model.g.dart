@@ -42,11 +42,11 @@ K _$enumDecode<K, V>(
 const _$MangaRelationshipTypesEnumMap = {
   MangaRelationshipTypes.manga: 'manga',
   MangaRelationshipTypes.chapter: 'chapter',
-  MangaRelationshipTypes.coverArt: 'coverArt',
+  MangaRelationshipTypes.coverArt: 'cover_art',
   MangaRelationshipTypes.author: 'author',
   MangaRelationshipTypes.artist: 'artist',
-  MangaRelationshipTypes.scanlationGroup: 'scanlationGroup',
+  MangaRelationshipTypes.scanlationGroup: 'scanlation_group',
   MangaRelationshipTypes.tag: 'tag',
   MangaRelationshipTypes.user: 'user',
-  MangaRelationshipTypes.customList: 'customList',
+  MangaRelationshipTypes.customList: 'custom_list',
 };

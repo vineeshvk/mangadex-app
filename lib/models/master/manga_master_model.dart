@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 import '../../core/constants/http_constants.dart';
 import '../../data_sources/remote_data/manga/manga_remote_data_source.dart';
 import '../common/base_item_model.dart';
@@ -5,6 +8,9 @@ import '../manga/cover_model.dart';
 import '../manga/manga_model.dart';
 import '../responses/common/base_data_response.dart';
 
+part 'manga_master_model.g.dart';
+
+@JsonSerializable()
 class MangaMasterModel {
   String? id;
 
@@ -24,11 +30,19 @@ class MangaMasterModel {
   String? updatedAt;
 
   String? coverId;
-  String? coverUrl;
+  final ValueNotifier<String?> _coverUrl = ValueNotifier(null);
 
   bool? isInLibrary = false;
 
   String? lastReadChapterId;
+
+  ValueNotifier<String?> get coverUrlListener => _coverUrl;
+
+  @JsonKey(name: "coverUrl")
+  String? get coverUrl => _coverUrl.value;
+
+  @JsonKey(name: "coverUrl")
+  set coverUrl(String? url) => _coverUrl.value = url ?? "";
 
   //TODO: add list of chapters
 
@@ -78,6 +92,16 @@ class MangaMasterModel {
       }
     } catch (e) {/* */}
 
-    coverUrl = coverArtUrl;
+    _coverUrl.value = coverArtUrl;
+  }
+
+  factory MangaMasterModel.fromJson(Map<String, dynamic> json) =>
+      _$MangaMasterModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MangaMasterModelToJson(this);
+
+  @override
+  String toString() {
+    return 'MangaMasterModel(id: $id, title: $title, description: ${description?.substring(0, 10)}, originalLanguage: $originalLanguage, publicationDemographic: $publicationDemographic, status: $status, year: $year, contentRating: $contentRating, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, coverId: $coverId, coverUrl: $coverUrl, isInLibrary: $isInLibrary, lastReadChapterId: $lastReadChapterId)';
   }
 }

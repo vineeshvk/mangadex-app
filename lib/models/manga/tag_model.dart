@@ -7,14 +7,12 @@ part 'tag_model.g.dart';
 @JsonSerializable(createToJson: false)
 class TagModel {
   final LabelModel name;
-  final LabelModel description;
 
   final String group;
   final int version;
 
   TagModel({
     required this.name,
-    required this.description,
     required this.group,
     required this.version,
   });
@@ -24,6 +22,6 @@ class TagModel {
 
   @override
   String toString() {
-    return 'TagModel(name: $name, description: $description, group: $group, version: $version)';
+    return 'TagModel(name: $name, group: $group, version: $version)';
   }
 }
