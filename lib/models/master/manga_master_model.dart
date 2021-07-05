@@ -104,4 +104,14 @@ class MangaMasterModel {
   String toString() {
     return 'MangaMasterModel(id: $id, title: $title, description: ${description?.substring(0, 10)}, originalLanguage: $originalLanguage, publicationDemographic: $publicationDemographic, status: $status, year: $year, contentRating: $contentRating, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, coverId: $coverId, coverUrl: $coverUrl, isInLibrary: $isInLibrary, lastReadChapterId: $lastReadChapterId)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is MangaMasterModel && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

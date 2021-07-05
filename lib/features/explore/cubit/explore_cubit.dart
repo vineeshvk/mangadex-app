@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mangadex/models/params/manga/manga_list_params.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/utils/base_equatable.dart';
@@ -9,26 +11,48 @@ import '../../../repositories/manga/manga_repository.dart';
 part 'explore_state.dart';
 
 class ExploreCubit extends Cubit<ExploreState> {
-  MangaRepository mangaRepository;
+  //constant values
+  late TextEditingController searchTextController;
 
+  final MangaRepository _mangaRepository;
+
+  //state values
   List<MangaMasterModel> mangaList = [];
+  late MangaListParams mangaListParams;
 
-  ExploreCubit({
-    required this.mangaRepository,
-  }) : super(ExploreIdleState());
+  ExploreCubit({required MangaRepository mangaRepository})
+      : _mangaRepository = mangaRepository,
+        super(ExploreIdleState());
 
+  //events
   Future<void> init() async {
     emit(ExploreLoadingState());
+    mangaListParams = MangaListParams();
+    searchTextController = TextEditingController();
 
+    await _getMangaList();
+  }
+
+  Future<void> searchManga() async {
+    if (mangaListParams.title == searchTextController.text.trim()) return;
+
+    emit(ExploreLoadingState());
+    mangaListParams.title = searchTextController.text.trim();
+
+    await _getMangaList();
+  }
+
+  //services
+  Future<void> _getMangaList() async {
     final BaseResponse<List<MangaMasterModel>> mangaListResponse =
-        await mangaRepository.getMangaList();
+        await _mangaRepository.getMangaList(mangaListParams);
 
     if (mangaListResponse.hasError) {
       emit(ExploreFailureState(mangaListResponse.errorMessage));
       return;
     }
 
-    mangaList = mangaListResponse.response ?? [];
+    mangaList = mangaListResponse.response!;
 
     emit(ExploreMangaListLoadedState());
   }

@@ -15,14 +15,14 @@ class MockMangaRepository extends Mock implements MangaRepository {}
 
 void main() {
   final MangaRepository repo = MockMangaRepository();
-  final cubit = ExploreCubit(mangaRepository: repo);
 
-  group("ExploreCubit tests", () {
-    initTest(repo, cubit);
+  group("ExploreCubit", () {
+    initTest(repo);
+    searchMangaTest(repo);
   });
 }
 
-void initTest(MangaRepository repo, ExploreCubit cubit) {
+void initTest(MangaRepository repo) {
   final successResponse = MangaBaseResponse(response: [
     MangaMasterModel(
       title: "hello",
@@ -52,7 +52,7 @@ void initTest(MangaRepository repo, ExploreCubit cubit) {
 
     blocTest<ExploreCubit, ExploreState>(
       'on failure response',
-      build: () => cubit,
+      build: () => ExploreCubit(mangaRepository: repo),
       act: (cubit) {
         when(() => repo.getMangaList(any()))
             .thenAnswer((_) async => failureResponse);
@@ -73,6 +73,54 @@ void initTest(MangaRepository repo, ExploreCubit cubit) {
         ExploreLoadingState(),
         ExploreFailureState(StringConstants.somethingWentWrong)
       ],
+    );
+  });
+}
+
+void searchMangaTest(MangaRepository repo) {
+  final successResponse = MangaBaseResponse(response: [
+    MangaMasterModel(
+      title: "hello",
+      tags: ["shonen"],
+      originalLanguage: "japan",
+    )
+  ]);
+
+  final failureResponse = MangaBaseResponse(
+    error: ErrorResponse(result: "failure", errors: [
+      ErrorModel(id: "id", status: 0, title: "error", detail: "network")
+    ]),
+  );
+
+  group('searchManga logic tests', () {
+    blocTest<ExploreCubit, ExploreState>(
+      'on success response',
+      build: () => ExploreCubit(mangaRepository: repo),
+      act: (cubit) async {
+        when(() => repo.getMangaList(any()))
+            .thenAnswer((_) async => successResponse);
+        await cubit.init();
+        await cubit.searchManga();
+      },
+      expect: () => [
+        ExploreLoadingState(),
+        ExploreMangaListLoadedState(),
+        ExploreLoadingState(),
+        ExploreMangaListLoadedState()
+      ],
+      verify: (cubit) => expect(cubit.mangaList, isNotEmpty),
+    );
+
+    blocTest<ExploreCubit, ExploreState>(
+      'on failure response',
+      build: () => ExploreCubit(mangaRepository: repo),
+      act: (cubit) async {
+        when(() => repo.getMangaList(any()))
+            .thenAnswer((_) async => failureResponse);
+        await cubit.init();
+        await cubit.searchManga();
+      },
+      verify: (cubit) => expect(cubit.mangaList, isEmpty),
     );
   });
 }
