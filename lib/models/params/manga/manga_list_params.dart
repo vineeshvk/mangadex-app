@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../core/constants/manga_constants.dart';
+import '../../../core/utils/extensions_util.dart';
 
 part 'manga_list_params.g.dart';
 
@@ -33,14 +34,14 @@ class MangaListParams {
   /// list of tag uuid to be excluded
   List<String>? excludedTags;
 
-  /// status of the manga MangaStatus [ongoing, completed, hiatus, cancelled]
-  MangaStatus? status;
+  /// status of the manga to be included; MangaStatus [ongoing, completed, hiatus, cancelled]
+  List<MangaStatus>? status;
 
-  /// original language of the manga
-  String? originalLanguage;
+  /// original language of the manga to be included
+  List<String>? originalLanguage;
 
-  /// publication demographic for the manga [shonen, shoujo, josei, seinen, none]
-  MangaPublicationDemography? publicationDemographic;
+  /// publication demographic to be included for the manga [shonen, shoujo, josei, seinen, none]
+  List<MangaPublicationDemography>? publicationDemographic;
 
   /// list of manga ids to search
   List<String>? ids;
@@ -81,6 +82,48 @@ class MangaListParams {
   });
 
   Map<String, dynamic> toJson() => _$MangaListParamsToJson(this);
+
+  void setFilter<T>(MangaParamType type, T value) {
+    switch (type) {
+      case MangaParamType.includedTags:
+        includedTags = includedTags.checkBox(value as String);
+        break;
+
+      case MangaParamType.includedTagsMode:
+        includedTagsMode = value as IncludedModes;
+        break;
+
+      case MangaParamType.excludedTags:
+        excludedTags = excludedTags.checkBox(value as String);
+        break;
+
+      case MangaParamType.status:
+        status = status.checkBox(value as MangaStatus);
+        break;
+
+      case MangaParamType.originalLanguage:
+        originalLanguage = originalLanguage.checkBox(value as String);
+        break;
+
+      case MangaParamType.publicationDemographic:
+        publicationDemographic = publicationDemographic
+            .checkBox(value as MangaPublicationDemography);
+        break;
+
+      case MangaParamType.contentRating:
+        contentRating = contentRating.checkBox(value as MangaContentRating);
+        break;
+
+      //TODO: have to check logic
+      case MangaParamType.createdAt:
+        createdAt = value as OrderBy;
+        break;
+
+      case MangaParamType.updatedAt:
+        updatedAt = value as OrderBy;
+        break;
+    }
+  }
 }
 
 String? _includedModesEnumToString(IncludedModes? includedModes) {
@@ -92,4 +135,16 @@ String? _includedModesEnumToString(IncludedModes? includedModes) {
   if (includedModes == null) return null;
 
   return includedModesEnumMap[includedModes];
+}
+
+enum MangaParamType {
+  includedTags,
+  includedTagsMode,
+  excludedTags,
+  status,
+  originalLanguage,
+  publicationDemographic,
+  contentRating,
+  createdAt,
+  updatedAt,
 }

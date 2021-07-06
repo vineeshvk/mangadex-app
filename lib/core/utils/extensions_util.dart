@@ -19,3 +19,19 @@ extension GetRelationWithType<E> on Iterable<RelationshipModel>? {
     }
   }
 }
+
+extension CheckBoxLogin<T> on List<T>? {
+  List<T>? checkBox(T value) {
+    List<T>? list = this ?? [];
+
+    if (list.contains(value)) {
+      list.remove(value);
+    } else {
+      list.add(value);
+    }
+
+    if (list.isEmpty) list = null;
+
+    return list;
+  }
+}

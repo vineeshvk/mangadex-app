@@ -24,10 +24,14 @@ Map<String, dynamic> _$MangaListParamsToJson(MangaListParams instance) {
   writeNotNull('includedTagsMode',
       _includedModesEnumToString(instance.includedTagsMode));
   writeNotNull('excludedTags', instance.excludedTags);
-  writeNotNull('status', _$MangaStatusEnumMap[instance.status]);
+  writeNotNull(
+      'status', instance.status?.map((e) => _$MangaStatusEnumMap[e]).toList());
   writeNotNull('originalLanguage', instance.originalLanguage);
-  writeNotNull('publicationDemographic',
-      _$MangaPublicationDemographyEnumMap[instance.publicationDemographic]);
+  writeNotNull(
+      'publicationDemographic',
+      instance.publicationDemographic
+          ?.map((e) => _$MangaPublicationDemographyEnumMap[e])
+          .toList());
   writeNotNull('ids', instance.ids);
   writeNotNull(
       'contentRating',

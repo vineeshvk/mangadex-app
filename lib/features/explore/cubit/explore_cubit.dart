@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mangadex/models/params/manga/manga_list_params.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/utils/base_equatable.dart';
 import '../../../models/master/manga_master_model.dart';
+import '../../../models/params/manga/manga_list_params.dart';
 import '../../../models/responses/base_response.dart';
 import '../../../repositories/manga/manga_repository.dart';
 
@@ -40,6 +40,16 @@ class ExploreCubit extends Cubit<ExploreState> {
     mangaListParams.title = searchTextController.text.trim();
 
     await _getMangaList();
+  }
+
+  void changeFilterValue<T>(MangaParamType type, T value) {
+    mangaListParams.setFilter<T>(type, value);
+    emit(ExploreApplyFilterState<T>(value, type));
+  }
+
+  void clearFilter() {
+    mangaListParams = MangaListParams(offset: mangaListParams.offset);
+    emit(ExploreApplyFilterState<bool>(true));
   }
 
   //services
