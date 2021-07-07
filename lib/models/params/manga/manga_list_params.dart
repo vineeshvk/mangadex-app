@@ -28,11 +28,16 @@ class MangaListParams {
   /// included tag mode.
   /// value either [and, or].
   /// default value [and]
-  @JsonKey(toJson: _includedModesEnumToString)
   IncludedModes? includedTagsMode;
 
   /// list of tag uuid to be excluded
   List<String>? excludedTags;
+
+  /// excluded tag mode.
+  /// value either [and, or].
+  /// default value [and]
+  // @JsonKey(toJson: _includedModesEnumToString)
+  IncludedModes excludedTagsMode;
 
   /// status of the manga to be included; MangaStatus [ongoing, completed, hiatus, cancelled]
   List<MangaStatus>? status;
@@ -68,8 +73,9 @@ class MangaListParams {
     this.authors,
     this.year,
     this.includedTags,
-    this.includedTagsMode,
+    this.includedTagsMode = IncludedModes.and,
     this.excludedTags,
+    this.excludedTagsMode = IncludedModes.or,
     this.status,
     this.originalLanguage,
     this.publicationDemographic,
@@ -114,27 +120,36 @@ class MangaListParams {
         contentRating = contentRating.checkBox(value as MangaContentRating);
         break;
 
-      //TODO: have to check logic
       case MangaParamType.createdAt:
-        createdAt = value as OrderBy;
+        if (createdAt == null) {
+          createdAt = OrderBy.desc;
+        } else if (createdAt == OrderBy.asc) {
+          createdAt = OrderBy.desc;
+        } else {
+          createdAt = OrderBy.asc;
+        }
+        updatedAt = null;
         break;
 
       case MangaParamType.updatedAt:
-        updatedAt = value as OrderBy;
+        if (updatedAt == null) {
+          updatedAt = OrderBy.desc;
+        } else if (updatedAt == OrderBy.asc) {
+          updatedAt = OrderBy.desc;
+        } else {
+          updatedAt = OrderBy.asc;
+        }
+        createdAt = null;
+        break;
+      case MangaParamType.defaultSort:
+        updatedAt = null;
+        createdAt = null;
         break;
     }
   }
-}
 
-String? _includedModesEnumToString(IncludedModes? includedModes) {
-  const includedModesEnumMap = {
-    IncludedModes.and: 'AND',
-    IncludedModes.or: 'OR',
-  };
-
-  if (includedModes == null) return null;
-
-  return includedModesEnumMap[includedModes];
+  @override
+  String toString() => toJson().toString();
 }
 
 enum MangaParamType {
@@ -147,4 +162,5 @@ enum MangaParamType {
   contentRating,
   createdAt,
   updatedAt,
+  defaultSort,
 }

@@ -21,9 +21,10 @@ Map<String, dynamic> _$MangaListParamsToJson(MangaListParams instance) {
   writeNotNull('authors', instance.authors);
   writeNotNull('year', instance.year);
   writeNotNull('includedTags', instance.includedTags);
-  writeNotNull('includedTagsMode',
-      _includedModesEnumToString(instance.includedTagsMode));
+  writeNotNull(
+      'includedTagsMode', _$IncludedModesEnumMap[instance.includedTagsMode]);
   writeNotNull('excludedTags', instance.excludedTags);
+  val['excludedTagsMode'] = _$IncludedModesEnumMap[instance.excludedTagsMode];
   writeNotNull(
       'status', instance.status?.map((e) => _$MangaStatusEnumMap[e]).toList());
   writeNotNull('originalLanguage', instance.originalLanguage);
@@ -44,6 +45,11 @@ Map<String, dynamic> _$MangaListParamsToJson(MangaListParams instance) {
   writeNotNull('updatedAt', _$OrderByEnumMap[instance.updatedAt]);
   return val;
 }
+
+const _$IncludedModesEnumMap = {
+  IncludedModes.and: 'AND',
+  IncludedModes.or: 'OR',
+};
 
 const _$MangaStatusEnumMap = {
   MangaStatus.ongoing: 'ongoing',

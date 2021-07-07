@@ -1,9 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mangadex/core/constants/manga_constants.dart';
 import 'package:mangadex/core/constants/string_constants.dart';
 import 'package:mangadex/features/explore/cubit/explore_cubit.dart';
 import 'package:mangadex/models/common/error_model.dart';
 import 'package:mangadex/models/master/manga_master_model.dart';
+import 'package:mangadex/models/params/manga/manga_list_params.dart';
 import 'package:mangadex/models/responses/base_response.dart';
 import 'package:mangadex/models/responses/common/error_response.dart';
 import 'package:mangadex/repositories/manga/manga_repository.dart';
@@ -19,6 +21,7 @@ void main() {
   group("ExploreCubit", () {
     initTest(repo);
     searchMangaTest(repo);
+    changeFilterValueTest(repo);
   });
 }
 
@@ -121,6 +124,34 @@ void searchMangaTest(MangaRepository repo) {
         await cubit.searchManga();
       },
       verify: (cubit) => expect(cubit.mangaList, isEmpty),
+    );
+  });
+}
+
+void changeFilterValueTest(MangaRepository repo) {
+  group("changeFilterValue logic test", () {
+    blocTest<ExploreCubit, ExploreState>(
+      'on filter change',
+      build: () => ExploreCubit(mangaRepository: repo),
+      act: (cubit) async {
+        await cubit.init();
+        cubit.changeFilterValue(MangaParamType.includedTags, "mystery");
+      },
+      verify: (cubit) {
+        expect(cubit.mangaListParams.includedTags, ["mystery"]);
+
+        cubit.changeFilterValue(MangaParamType.includedTags, "mystery");
+        expect(cubit.mangaListParams.includedTags, isNull);
+
+        cubit.changeFilterValue(MangaParamType.status, MangaStatus.completed);
+        expect(cubit.mangaListParams.status, [MangaStatus.completed]);
+
+        cubit.changeFilterValue(MangaParamType.status, MangaStatus.completed);
+        expect(cubit.mangaListParams.status, isNull);
+
+        cubit.changeFilterValue(MangaParamType.createdAt, null);
+        expect(cubit.mangaListParams.createdAt, OrderBy.desc);
+      },
     );
   });
 }

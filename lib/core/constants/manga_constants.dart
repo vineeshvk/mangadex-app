@@ -50,6 +50,11 @@ enum MangaRelationshipTypes {
   customList,
 }
 
-enum IncludedModes { and, or }
+enum IncludedModes {
+  @JsonValue("AND")
+  and,
+  @JsonValue("OR")
+  or,
+}
 
 enum OrderBy { asc, desc }
