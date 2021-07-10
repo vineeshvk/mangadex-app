@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../../../core/utils/base_equatable.dart';
 import '../../../models/master/manga_master_model.dart';
+import '../../../models/master/tag_master_model.dart';
 import '../../../models/params/manga/manga_list_params.dart';
 import '../../../models/responses/base_response.dart';
 import '../../../repositories/manga/manga_repository.dart';
@@ -20,6 +21,9 @@ class ExploreCubit extends Cubit<ExploreState> {
   List<MangaMasterModel> mangaList = [];
   late MangaListParams mangaListParams;
 
+  /// [tagList] is the complete list of tags; The selected tags will be handled in [mangaListParams]
+  List<TagMasterModel> tagList = [];
+
   ExploreCubit({required MangaRepository mangaRepository})
       : _mangaRepository = mangaRepository,
         super(ExploreIdleState());
@@ -30,7 +34,9 @@ class ExploreCubit extends Cubit<ExploreState> {
     mangaListParams = MangaListParams();
     searchTextController = TextEditingController();
 
-    await _getMangaList();
+    // Make sure always the tag list data should be fetched first; As there is no state emitted
+    _getTagsList();
+    _getMangaList();
   }
 
   Future<void> searchManga() async {
@@ -65,5 +71,17 @@ class ExploreCubit extends Cubit<ExploreState> {
     mangaList = mangaListResponse.response!;
 
     emit(ExploreMangaListLoadedState());
+  }
+
+  Future<void> _getTagsList() async {
+    final BaseResponse<List<TagMasterModel>> tagListResponse =
+        await _mangaRepository.getTagList();
+
+    if (tagListResponse.hasError) {
+      emit(ExploreFailureState(tagListResponse.errorMessage));
+      return;
+    }
+
+    tagList = tagListResponse.response!;
   }
 }

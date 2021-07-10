@@ -1,6 +1,6 @@
 import '../../models/common/base_item_model.dart';
 import '../../models/manga/cover_model.dart';
-import '../../models/manga/manga_model.dart';
+import '../../models/manga/manga_item_model.dart';
 import '../../models/manga/tag_model.dart';
 import '../../models/responses/common/base_data_response.dart';
 

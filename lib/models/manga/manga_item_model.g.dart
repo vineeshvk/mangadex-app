@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'manga_model.dart';
+part of 'manga_item_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

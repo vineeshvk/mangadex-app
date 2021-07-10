@@ -5,6 +5,7 @@ import 'package:mangadex/core/constants/string_constants.dart';
 import 'package:mangadex/features/explore/cubit/explore_cubit.dart';
 import 'package:mangadex/models/common/error_model.dart';
 import 'package:mangadex/models/master/manga_master_model.dart';
+import 'package:mangadex/models/master/tag_master_model.dart';
 import 'package:mangadex/models/params/manga/manga_list_params.dart';
 import 'package:mangadex/models/responses/base_response.dart';
 import 'package:mangadex/models/responses/common/error_response.dart';
@@ -12,11 +13,17 @@ import 'package:mangadex/repositories/manga/manga_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 typedef MangaBaseResponse = BaseResponse<List<MangaMasterModel>>;
+typedef TagBaseResponse = BaseResponse<List<TagMasterModel>>;
 
 class MockMangaRepository extends Mock implements MangaRepository {}
 
 void main() {
   final MangaRepository repo = MockMangaRepository();
+
+  final successResponse = TagBaseResponse(
+    response: [TagMasterModel(id: "1", name: "school", group: "genre")],
+  );
+  when(() => repo.getTagList()).thenAnswer((_) async => successResponse);
 
   group("ExploreCubit", () {
     initTest(repo);
@@ -77,7 +84,27 @@ void initTest(MangaRepository repo) {
         ExploreFailureState(StringConstants.somethingWentWrong)
       ],
     );
+
+    fetchingTagTest(repo);
   });
+}
+
+void fetchingTagTest(MangaRepository repo) {
+  group(
+    "fetching tags",
+    () {
+      blocTest<ExploreCubit, ExploreState>(
+        "on success",
+        build: () => ExploreCubit(mangaRepository: repo),
+        act: (cubit) async {
+          await cubit.init();
+        },
+        verify: (cubit) {
+          expect(cubit.tagList, isNotEmpty);
+        },
+      );
+    },
+  );
 }
 
 void searchMangaTest(MangaRepository repo) {

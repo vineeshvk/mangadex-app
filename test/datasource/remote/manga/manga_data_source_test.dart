@@ -4,7 +4,7 @@ import 'package:mangadex/core/constants/http_constants.dart';
 import 'package:mangadex/core/constants/http_urls.dart';
 import 'package:mangadex/core/exception/api_exception.dart';
 import 'package:mangadex/data_sources/remote_data/manga/manga_remote_data_source.dart';
-import 'package:mangadex/models/master/manga_master_model.dart';
+import 'package:mangadex/models/responses/manga/manga_list_response.dart';
 import 'package:mangadex/models/responses/manga/tag_list_response.dart';
 
 import '../../../core/utils.dart/dio_mock.dart';
@@ -28,8 +28,8 @@ void main() {
 
       expect(
         await mangaDataSource.getMangaList(),
-        isA<List<MangaMasterModel>>().having(
-          (res) => res,
+        isA<MangaListResponse>().having(
+          (res) => res.results,
           "results",
           isNotEmpty,
         ),

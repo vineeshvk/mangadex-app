@@ -5,7 +5,7 @@ import '../common/base_item_model.dart';
 import '../common/label_model.dart';
 import 'tag_model.dart';
 
-part 'manga_model.g.dart';
+part 'manga_item_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class MangaItemModel {

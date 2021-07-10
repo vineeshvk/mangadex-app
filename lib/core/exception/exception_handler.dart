@@ -3,11 +3,14 @@ import 'package:dio/dio.dart';
 import '../../models/responses/base_response.dart';
 import '../../models/responses/common/error_response.dart';
 import 'api_exception.dart';
+import 'cache_exception.dart';
+
+typedef Operation<T> = Future<T> Function();
 
 class ExceptionHandler {
   ExceptionHandler._();
 
-  static Future<T> api<T>(Future<T> Function() operation) async {
+  static Future<T> api<T>(Operation<T> operation) async {
     try {
       final T result = await operation();
       return result;
@@ -22,8 +25,26 @@ class ExceptionHandler {
     }
   }
 
-  static Future<BaseResponse<T>> repo<T>(Future<T> Function() operation) async {
-    BaseResponse<T> response;
+  /// Takes an api [operation] and an optional cache operation [cacheOp];
+  /// [cacheOp] will be executed first and if the data is not null then it will be returned;
+  /// And if it is null only then the api operation will be executed
+  static Future<BaseResponse<T>> repo<T>(
+    Operation<T> operation, {
+    Operation<T>? cacheOp,
+  }) async {
+    BaseResponse<T>? response;
+
+    if (cacheOp != null) {
+      try {
+        final result = await cacheOp();
+        if (result != null) {
+          response = BaseResponse(response: result);
+        }
+      } on CacheException catch (_) {/* */}
+    }
+
+    if (response != null) return response;
+
     try {
       final result = await operation();
       response = BaseResponse(response: result);

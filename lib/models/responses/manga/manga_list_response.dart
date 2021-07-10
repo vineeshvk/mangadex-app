@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../../core/models/model_serialization_helper.dart';
 import '../../../models/common/base_item_model.dart';
-import '../../../models/manga/manga_model.dart';
+import '../../manga/manga_item_model.dart';
 import '../common/base_data_response.dart';
 import '../common/base_pagination_response.dart';
 
