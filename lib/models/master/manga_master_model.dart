@@ -77,6 +77,7 @@ class MangaMasterModel {
     );
   }
 
+  // TODO: move the logic to a repository
   Future<void> getCover({
     required MangaRemoteDataSource dataSource,
     MangaCacheDataSource? cacheDataSource,
@@ -85,8 +86,7 @@ class MangaMasterModel {
 
     if (cacheDataSource != null) {
       try {
-        final String? coverArtCache =
-            await cacheDataSource.getMangaCoverArt(this);
+        final String? coverArtCache = cacheDataSource.getMangaCoverArt(this);
         coverArtUrl = coverArtCache ?? "";
       } catch (e) {/* */}
     }

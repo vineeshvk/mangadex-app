@@ -20,7 +20,7 @@ extension GetRelationWithType<E> on Iterable<RelationshipModel>? {
   }
 }
 
-extension CheckBoxLogin<T> on List<T>? {
+extension CheckBoxLogic<T> on List<T>? {
   List<T>? checkBox(T value) {
     List<T>? list = this ?? [];
 

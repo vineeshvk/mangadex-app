@@ -1,36 +1,36 @@
 import '../../../models/master/manga_master_model.dart';
-import '../../../services/redis_service.dart';
+import '../../../services/db_service.dart';
 
 class MangaCacheDataSource {
-  final RedisService _dbClient;
+  final DBService _dbClient;
 
   MangaCacheDataSource({
-    required RedisService dbClient,
+    required DBService dbClient,
   }) : _dbClient = dbClient;
 
-  Future<void> storeMangaList(List<MangaMasterModel> mangaList) async {
+  void storeMangaList(List<MangaMasterModel> mangaList) {
     for (final manga in mangaList) {
-      await _dbClient.set("manga://${manga.id}", manga.toJson());
+      _dbClient.set("manga://${manga.id}", manga.toJson());
     }
   }
 
-  Future<MangaMasterModel?> getManga(String id) async {
-    final Map<String, dynamic>? response = await _dbClient.get("manga://$id");
+  MangaMasterModel? getManga(String id) {
+    final Map<String, dynamic>? response = _dbClient.get("manga://$id");
     if (response == null) return null;
 
     return MangaMasterModel.fromJson(response);
   }
 
-  Future<void> storeMangaCoverArt(List<MangaMasterModel> mangaList) async {
+  void storeMangaCoverArt(List<MangaMasterModel> mangaList) {
     for (final manga in mangaList) {
       if (manga.coverUrl != null && manga.coverUrl!.isNotEmpty) {
-        await _dbClient.setString("cover_art://${manga.id}", manga.coverUrl!);
+        _dbClient.set<String>("cover_art://${manga.id}", manga.coverUrl!);
       }
     }
   }
 
-  Future<String?> getMangaCoverArt(MangaMasterModel manga) async {
-    final response = await _dbClient.getString("cover_art://${manga.id}");
+  String? getMangaCoverArt(MangaMasterModel manga) {
+    final response = _dbClient.get<String>("cover_art://${manga.id}");
 
     return response;
   }

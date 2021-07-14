@@ -7,7 +7,7 @@ part 'manga_list_params.g.dart';
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class MangaListParams {
-  /// limit for querying default value is [10]
+  /// limit for querying default value is `[10]`
   int? limit;
 
   /// query from offset; offset > 0
@@ -26,16 +26,16 @@ class MangaListParams {
   List<String>? includedTags;
 
   /// included tag mode.
-  /// value either [and, or].
-  /// default value [and]
+  /// value either `[and, or]`.
+  /// default value `[and]`
   IncludedModes? includedTagsMode;
 
   /// list of tag uuid to be excluded
   List<String>? excludedTags;
 
   /// excluded tag mode.
-  /// value either [and, or].
-  /// default value [and]
+  /// value either `[and, or]`.
+  /// default value `[and]`
   // @JsonKey(toJson: _includedModesEnumToString)
   IncludedModes excludedTagsMode;
 
@@ -45,13 +45,13 @@ class MangaListParams {
   /// original language of the manga to be included
   List<String>? originalLanguage;
 
-  /// publication demographic to be included for the manga [shonen, shoujo, josei, seinen, none]
+  /// publication demographic to be included for the manga `[shonen, shoujo, josei, seinen, none]`
   List<MangaPublicationDemography>? publicationDemographic;
 
   /// list of manga ids to search
   List<String>? ids;
 
-  /// list content ratings to be included [safe, suggestive, erotica, pornographic]
+  /// list content ratings to be included `[safe, suggestive, erotica, pornographic]`
   List<MangaContentRating>? contentRating;
 
   /// manga created date
@@ -60,10 +60,10 @@ class MangaListParams {
   /// manga updated date
   DateTime? updatedAtSince;
 
-  /// order the manga list by [asc, desc] with createdAtSince date
+  /// order the manga list by `[asc, desc]` with createdAtSince date
   OrderBy? createdAt;
 
-  /// order the manga list by [asc, desc] with updatedAtSince date
+  /// order the manga list by `[asc, desc]` with updatedAtSince date
   OrderBy? updatedAt;
 
   MangaListParams({

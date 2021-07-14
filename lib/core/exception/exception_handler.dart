@@ -25,8 +25,8 @@ class ExceptionHandler {
     }
   }
 
-  /// Takes an api [operation] and an optional cache operation [cacheOp];
-  /// [cacheOp] will be executed first and if the data is not null then it will be returned;
+  /// Takes an api `[operation]` and an optional cache operation `[cacheOp]`;
+  /// `dart[cacheOp]` will be executed first and if the data is not null then it will be returned;
   /// And if it is null only then the api operation will be executed
   static Future<BaseResponse<T>> repo<T>(
     Operation<T> operation, {
