@@ -13,7 +13,7 @@ void main() {
     options: BaseOptions(baseUrl: HttpConstants.baseUrl),
   );
 
-  final chapterDataSource = ChapterRemoteDataSource(dio: dioMock.dio);
+  final chapterDataSource = ChapterRemoteDataSource(networkClient: dioMock.dio);
   group("Chapter read & unread api", () {
     test("200 status chapter read", () async {
       dioMock.adapter.onPost(HttpUrls.chapterRead("uuid"), (request) {

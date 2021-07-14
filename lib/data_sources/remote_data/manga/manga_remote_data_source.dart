@@ -11,17 +11,21 @@ import '../../../models/responses/manga/manga_list_response.dart';
 import '../../../models/responses/manga/tag_list_response.dart';
 import '../../cache/manga/manga_cache_data_source.dart';
 
+typedef CoverResponse = BaseDataResponse<BaseItemModel<CoverModel>>;
+
 class MangaRemoteDataSource {
-  final Dio dio;
+  final Dio _networkClient;
   final MangaCacheDataSource? _cacheDataSource;
 
   MangaRemoteDataSource(
-      {required this.dio, MangaCacheDataSource? mangaCacheDataSource})
-      : _cacheDataSource = mangaCacheDataSource;
+      {required Dio networkClient, MangaCacheDataSource? mangaCacheDataSource})
+      : _networkClient = networkClient,
+        //TODO: establish communication via repository and not direct datasources
+        _cacheDataSource = mangaCacheDataSource;
 
   Future<MangaListResponse> getMangaList([MangaListParams? params]) async {
     return ExceptionHandler.api(() async {
-      final Response response = await dio.get(
+      final Response response = await _networkClient.get(
         HttpUrls.manga,
         queryParameters: params?.toJson(),
       );
@@ -36,15 +40,16 @@ class MangaRemoteDataSource {
 
   Future<TagListResponse> getTagList() {
     return ExceptionHandler.api(() async {
-      final Response response = await dio.get(HttpUrls.tags);
+      final Response response = await _networkClient.get(HttpUrls.tags);
 
       return TagListResponse.fromJson(response.data as List);
     });
   }
 
-  Future<BaseDataResponse<BaseItemModel<CoverModel>>> getCover(String coverId) {
+  Future<CoverResponse> getCover(String coverId) {
     return ExceptionHandler.api(() async {
-      final Response response = await dio.get(HttpUrls.cover(coverId));
+      final Response response =
+          await _networkClient.get(HttpUrls.cover(coverId));
 
       return ModelHelper.fromJsonBaseDataWithBaseItemWithCover(
         response.data as Map<String, dynamic>,

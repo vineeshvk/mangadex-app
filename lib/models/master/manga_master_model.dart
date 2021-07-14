@@ -4,10 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import '../../core/constants/http_constants.dart';
 import '../../data_sources/cache/manga/manga_cache_data_source.dart';
 import '../../data_sources/remote_data/manga/manga_remote_data_source.dart';
-import '../common/base_item_model.dart';
-import '../manga/cover_model.dart';
 import '../manga/manga_item_model.dart';
-import '../responses/common/base_data_response.dart';
 
 part 'manga_master_model.g.dart';
 
@@ -93,8 +90,7 @@ class MangaMasterModel {
 
     try {
       if (coverId != null && coverArtUrl.isEmpty) {
-        final BaseDataResponse<BaseItemModel<CoverModel>> coverArt =
-            await dataSource.getCover(coverId!);
+        final CoverResponse coverArt = await dataSource.getCover(coverId!);
         final String fileName = coverArt.data.attributes.fileName;
 
         if (id != null) {

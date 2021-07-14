@@ -5,13 +5,15 @@ import '../../../core/exception/exception_handler.dart';
 import '../../../models/responses/common/base_data_response.dart';
 
 class ChapterRemoteDataSource {
-  final Dio dio;
+  final Dio _networkClient;
 
-  ChapterRemoteDataSource({required this.dio});
+  ChapterRemoteDataSource({required Dio networkClient})
+      : _networkClient = networkClient;
 
   Future<BaseDataResponse<void>> markChapterRead(String id) {
     return ExceptionHandler.api(() async {
-      final Response response = await dio.post(HttpUrls.chapterRead(id));
+      final Response response =
+          await _networkClient.post(HttpUrls.chapterRead(id));
 
       return BaseDataResponse.fromJson(
         response.data as Map<String, dynamic>,
@@ -22,7 +24,8 @@ class ChapterRemoteDataSource {
 
   Future<BaseDataResponse<void>> markChapterUnRead(String id) {
     return ExceptionHandler.api(() async {
-      final Response response = await dio.delete(HttpUrls.chapterRead(id));
+      final Response response =
+          await _networkClient.delete(HttpUrls.chapterRead(id));
 
       return BaseDataResponse.fromJson(
         response.data as Map<String, dynamic>,

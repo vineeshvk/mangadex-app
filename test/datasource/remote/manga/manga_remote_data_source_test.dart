@@ -15,7 +15,7 @@ void main() {
     options: BaseOptions(baseUrl: HttpConstants.baseUrl),
   );
 
-  final mangaDataSource = MangaRemoteDataSource(dio: dioMock.dio);
+  final mangaDataSource = MangaRemoteDataSource(networkClient: dioMock.dio);
 
   group("Get manga list api", () {
     test("200 status", () async {
@@ -69,6 +69,42 @@ void main() {
           "tags",
           isNotEmpty,
         ),
+      );
+    });
+  });
+
+  group("Get Cover api", () {
+    test("200 status", () async {
+      dioMock.adapter.onGet(HttpUrls.cover("1"), (request) {
+        request.reply(
+          200,
+          Fixtures.parse(Fixtures.cover),
+        );
+      });
+      expect(
+        await mangaDataSource.getCover("1"),
+        isA<CoverResponse>().having(
+          (res) => res.data.attributes,
+          "cover",
+          isNotNull,
+        ),
+      );
+    });
+
+    test("400/403/404 status", () async {
+      dioMock.adapter.onGet(HttpUrls.cover("1"), (request) {
+        request.throws(
+          400,
+          DioError(
+            requestOptions: RequestOptions(path: HttpUrls.cover("1")),
+            error: Fixtures.parse(Fixtures.error),
+          ),
+        );
+      });
+
+      expect(
+        () => mangaDataSource.getCover("1"),
+        throwsA(isA<ApiException>().having((e) => e.error, "error", isNotNull)),
       );
     });
   });

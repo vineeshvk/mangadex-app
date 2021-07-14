@@ -8,14 +8,14 @@ class MangaCacheDataSource {
     required DBService dbClient,
   }) : _dbClient = dbClient;
 
-  void storeMangaList(List<MangaMasterModel> mangaList) {
+  void storeManga(List<MangaMasterModel> mangaList) {
     for (final manga in mangaList) {
       _dbClient.set("manga://${manga.id}", manga.toJson());
     }
   }
 
   MangaMasterModel? getManga(String id) {
-    final Map<String, dynamic>? response = _dbClient.get("manga://$id");
+    final response = _dbClient.get<Map<String, dynamic>>("manga://$id");
     if (response == null) return null;
 
     return MangaMasterModel.fromJson(response);
