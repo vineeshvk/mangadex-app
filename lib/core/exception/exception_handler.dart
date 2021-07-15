@@ -38,7 +38,7 @@ class ExceptionHandler {
       try {
         final result = await cacheOp();
         if (result != null) {
-          response = BaseResponse(response: result);
+          response = BaseResponse(data: result);
         }
       } on CacheException catch (_) {/* */}
     }
@@ -47,7 +47,7 @@ class ExceptionHandler {
 
     try {
       final result = await operation();
-      response = BaseResponse(response: result);
+      response = BaseResponse(data: result);
     } on ApiException catch (exception) {
       response = BaseResponse(error: exception.error);
     }

@@ -21,7 +21,7 @@ void main() {
   final MangaRepository repo = MockMangaRepository();
 
   final successResponse = TagBaseResponse(
-    response: [TagMasterModel(id: "1", name: "school", group: "genre")],
+    data: [TagMasterModel(id: "1", name: "action", group: "genre")],
   );
   when(() => repo.getTagList()).thenAnswer((_) async => successResponse);
 
@@ -33,7 +33,7 @@ void main() {
 }
 
 void initTest(MangaRepository repo) {
-  final successResponse = MangaBaseResponse(response: [
+  final successResponse = MangaBaseResponse(data: [
     MangaMasterModel(
       title: "hello",
       tags: ["shonen"],
@@ -101,6 +101,7 @@ void fetchingTagTest(MangaRepository repo) {
         },
         verify: (cubit) {
           expect(cubit.tagList, isNotEmpty);
+          expect(cubit.tagList.first.name, "action");
         },
       );
     },
@@ -108,7 +109,7 @@ void fetchingTagTest(MangaRepository repo) {
 }
 
 void searchMangaTest(MangaRepository repo) {
-  final successResponse = MangaBaseResponse(response: [
+  final successResponse = MangaBaseResponse(data: [
     MangaMasterModel(
       title: "hello",
       tags: ["shonen"],

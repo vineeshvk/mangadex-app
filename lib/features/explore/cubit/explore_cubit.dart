@@ -68,7 +68,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       return;
     }
 
-    mangaList = mangaListResponse.response!;
+    mangaList = mangaListResponse.data!;
 
     emit(ExploreMangaListLoadedState());
   }
@@ -82,6 +82,6 @@ class ExploreCubit extends Cubit<ExploreState> {
       return;
     }
 
-    tagList = tagListResponse.response!;
+    tagList = tagListResponse.data!;
   }
 }

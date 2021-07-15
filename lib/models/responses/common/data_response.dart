@@ -2,25 +2,25 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../common/relationship_model.dart';
 
-part 'base_data_response.g.dart';
+part 'data_response.g.dart';
 
 @JsonSerializable(createToJson: false, genericArgumentFactories: true)
-class BaseDataResponse<T> {
+class DataResponse<T> {
   final String result;
   final T data;
   final List<RelationshipModel>? relationships;
 
-  BaseDataResponse({
+  DataResponse({
     required this.result,
     required this.data,
-    required this.relationships,
+    this.relationships,
   });
 
-  factory BaseDataResponse.fromJson(
+  factory DataResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Map<String, dynamic>? json) jsonT,
   ) =>
-      _$BaseDataResponseFromJson(
+      _$DataResponseFromJson(
         json,
         (object) => jsonT(object as Map<String, dynamic>?),
       );

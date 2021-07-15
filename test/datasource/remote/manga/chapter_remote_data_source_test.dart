@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mangadex/core/constants/http_constants.dart';
 import 'package:mangadex/core/constants/http_urls.dart';
 import 'package:mangadex/data_sources/remote_data/manga/chapter_remote_data_source.dart';
-import 'package:mangadex/models/responses/common/base_data_response.dart';
+import 'package:mangadex/models/responses/common/data_response.dart';
 
 import '../../../core/utils.dart/dio_mock.dart';
 import '../../../fixtures/fixtures_reader.dart';
@@ -25,7 +25,7 @@ void main() {
 
       expect(
         await chapterDataSource.markChapterRead("uuid"),
-        isA<BaseDataResponse>().having(
+        isA<DataResponse>().having(
           (res) => res.result,
           "result",
           equals("ok"),
@@ -43,7 +43,7 @@ void main() {
 
       expect(
         await chapterDataSource.markChapterUnRead("uuid"),
-        isA<BaseDataResponse>().having(
+        isA<DataResponse>().having(
           (res) => res.result,
           "result",
           equals("ok"),

@@ -2,12 +2,12 @@ import '../../core/constants/string_constants.dart';
 import 'common/error_response.dart';
 
 class BaseResponse<T> {
-  T? response;
+  T? data;
   ErrorResponse? error;
 
-  BaseResponse({this.response, this.error});
+  BaseResponse({this.data, this.error});
 
-  bool get hasData => response != null;
+  bool get hasData => data != null;
 
   /// Return true if the error object is present or if the data is null
   /// Else it will return false

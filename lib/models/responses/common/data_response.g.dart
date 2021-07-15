@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'base_data_response.dart';
+part of 'data_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BaseDataResponse<T> _$BaseDataResponseFromJson<T>(
+DataResponse<T> _$DataResponseFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) {
-  return BaseDataResponse<T>(
+  return DataResponse<T>(
     result: json['result'] as String,
     data: fromJsonT(json['data']),
     relationships: (json['relationships'] as List<dynamic>?)

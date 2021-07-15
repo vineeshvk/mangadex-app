@@ -1,12 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../models/common/error_model.dart';
-import '../base_response.dart';
 
 part 'error_response.g.dart';
 
 @JsonSerializable(createToJson: false)
-class ErrorResponse extends BaseResponse {
+class ErrorResponse {
   String result;
   List<ErrorModel> errors;
 

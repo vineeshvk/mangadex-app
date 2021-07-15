@@ -6,12 +6,12 @@ import '../../../core/models/model_serialization_helper.dart';
 import '../../../models/common/base_item_model.dart';
 import '../../../models/manga/cover_model.dart';
 import '../../../models/params/manga/manga_list_params.dart';
-import '../../../models/responses/common/base_data_response.dart';
+import '../../../models/responses/common/data_response.dart';
 import '../../../models/responses/manga/manga_list_response.dart';
 import '../../../models/responses/manga/tag_list_response.dart';
 import '../../cache/manga/manga_cache_data_source.dart';
 
-typedef CoverResponse = BaseDataResponse<BaseItemModel<CoverModel>>;
+typedef CoverResponse = DataResponse<BaseItemModel<CoverModel>>;
 
 class MangaRemoteDataSource {
   final Dio _networkClient;

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../core/constants/http_urls.dart';
 import '../../../core/exception/exception_handler.dart';
-import '../../../models/responses/common/base_data_response.dart';
+import '../../../models/responses/common/data_response.dart';
 
 class ChapterRemoteDataSource {
   final Dio _networkClient;
@@ -10,24 +10,24 @@ class ChapterRemoteDataSource {
   ChapterRemoteDataSource({required Dio networkClient})
       : _networkClient = networkClient;
 
-  Future<BaseDataResponse<void>> markChapterRead(String id) {
+  Future<DataResponse<void>> markChapterRead(String id) {
     return ExceptionHandler.api(() async {
       final Response response =
           await _networkClient.post(HttpUrls.chapterRead(id));
 
-      return BaseDataResponse.fromJson(
+      return DataResponse.fromJson(
         response.data as Map<String, dynamic>,
         (json) {},
       );
     });
   }
 
-  Future<BaseDataResponse<void>> markChapterUnRead(String id) {
+  Future<DataResponse<void>> markChapterUnRead(String id) {
     return ExceptionHandler.api(() async {
       final Response response =
           await _networkClient.delete(HttpUrls.chapterRead(id));
 
-      return BaseDataResponse.fromJson(
+      return DataResponse.fromJson(
         response.data as Map<String, dynamic>,
         (json) {},
       );

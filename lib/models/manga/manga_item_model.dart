@@ -12,7 +12,7 @@ class MangaItemModel {
   String? id;
 
   final LabelModel title;
-  final List<LabelModel> altTitles;
+  final List<LabelModel>? altTitles;
   final LabelModel description;
 
   final String originalLanguage;
@@ -31,15 +31,15 @@ class MangaItemModel {
 
   MangaItemModel({
     required this.title,
-    required this.altTitles,
     required this.description,
     required this.originalLanguage,
-    required this.publicationDemographic,
-    required this.status,
-    required this.year,
-    required this.contentRating,
-    required this.tags,
-    required this.version,
+    this.altTitles,
+    this.publicationDemographic,
+    this.status,
+    this.year,
+    this.contentRating,
+    this.tags = const [],
+    this.version = 1,
     required this.createdAt,
     required this.updatedAt,
   });
