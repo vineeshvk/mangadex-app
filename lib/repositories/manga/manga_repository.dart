@@ -32,7 +32,7 @@ class MangaRepository {
       final List<MangaMasterModel> mangaList =
           _convertToMangaMasterList(mangaResponse);
 
-      return mangaList.toList();
+      return BaseResponse(data: mangaList.toList(), pagination: mangaResponse);
     });
   }
 
@@ -51,7 +51,7 @@ class MangaRepository {
         );
       });
 
-      return tagList.toList();
+      return BaseResponse(data: tagList.toList());
     });
   }
 

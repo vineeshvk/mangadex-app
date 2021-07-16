@@ -11,7 +11,7 @@ MangaListResponse _$MangaListResponseFromJson(Map<String, dynamic> json) {
     results: ModelHelper.fromJsonBaseDataWithBaseItemWithManga(
         json['results'] as List),
   )
-    ..limit = json['limit'] as int?
-    ..offset = json['offset'] as int?
-    ..total = json['total'] as int?;
+    ..limit = json['limit'] as int? ?? 0
+    ..offset = json['offset'] as int? ?? 0
+    ..total = json['total'] as int? ?? 0;
 }

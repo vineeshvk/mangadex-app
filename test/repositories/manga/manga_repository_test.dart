@@ -23,21 +23,26 @@ void main() {
   final dataSource = MockMangaDataSource();
   final mangaRepo = MangaRepository(mangaDataSource: dataSource);
 
-  final mangaListRes = MangaListResponse(results: [
-    DataResponse(
-      result: "ok",
-      data: BaseItemModel(
-          attributes: MangaItemModel(
-            createdAt: '',
-            updatedAt: '',
-            originalLanguage: 'japanese',
-            title: LabelModel(en: "sample manga"),
-            description: LabelModel(en: "desc"),
-          ),
-          id: '1',
-          type: MangaRelationshipTypes.manga),
-    )
-  ]);
+  final mangaListRes = MangaListResponse(
+    results: [
+      DataResponse(
+        result: "ok",
+        data: BaseItemModel(
+            attributes: MangaItemModel(
+              createdAt: '',
+              updatedAt: '',
+              originalLanguage: 'japanese',
+              title: LabelModel(en: "sample manga"),
+              description: LabelModel(en: "desc"),
+            ),
+            id: '1',
+            type: MangaRelationshipTypes.manga),
+      )
+    ],
+  )
+    ..limit = 100
+    ..offset = 0
+    ..total = 100;
 
   final taglistRes = TagListResponse(tags: [
     DataResponse(
@@ -67,7 +72,8 @@ void main() {
               (res) => res.data?.first.title,
               "title",
               "sample manga",
-            ),
+            )
+            .having((res) => res.pagination?.isLastPage, "pagination", true),
       );
 
       when(() => dataSource.getMangaList(any())).thenThrow(ApiException());

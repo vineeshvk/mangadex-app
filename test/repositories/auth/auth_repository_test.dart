@@ -28,10 +28,10 @@ void main() {
 
       expect(
         await authRepo.login(username: "admin", password: "admin"),
-        isA<BaseResponse<TokenResponse>>()
+        isA<BaseResponse<TokenModel>>()
             .having((res) => res.hasData, "token", true)
             .having(
-              (res) => res.data?.token.session,
+              (res) => res.data?.session,
               "session",
               "session_token",
             ),
@@ -46,7 +46,7 @@ void main() {
 
       expect(
         await authRepo.login(username: "admin", password: "admin"),
-        TestUtil.checkError(isA<BaseResponse<TokenResponse>>()),
+        TestUtil.checkError(isA<BaseResponse<TokenModel>>()),
       );
     });
   });

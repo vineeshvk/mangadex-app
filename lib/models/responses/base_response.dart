@@ -1,11 +1,15 @@
 import '../../core/constants/string_constants.dart';
 import 'common/error_response.dart';
+import 'common/pagination_handler.dart';
 
 class BaseResponse<T> {
   T? data;
   ErrorResponse? error;
 
-  BaseResponse({this.data, this.error});
+  /// Will be used to handle the pagination for requests.
+  PaginationHandler? pagination;
+
+  BaseResponse({this.data, this.error, this.pagination});
 
   bool get hasData => data != null;
 

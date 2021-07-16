@@ -29,25 +29,21 @@ class ExceptionHandler {
   /// `dart[cacheOp]` will be executed first and if the data is not null then it will be returned;
   /// And if it is null only then the api operation will be executed
   static Future<BaseResponse<T>> repo<T>(
-    Operation<T> operation, {
-    Operation<T>? cacheOp,
+    Operation<BaseResponse<T>> operation, {
+    Operation<BaseResponse<T>>? cacheOp,
   }) async {
     BaseResponse<T>? response;
 
     if (cacheOp != null) {
       try {
-        final result = await cacheOp();
-        if (result != null) {
-          response = BaseResponse(data: result);
-        }
+        response = await cacheOp();
       } on CacheException catch (_) {/* */}
     }
 
     if (response != null) return response;
 
     try {
-      final result = await operation();
-      response = BaseResponse(data: result);
+      response = await operation();
     } on ApiException catch (exception) {
       response = BaseResponse(error: exception.error);
     }
