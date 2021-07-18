@@ -15,8 +15,6 @@ Map<String, dynamic> _$MangaListParamsToJson(MangaListParams instance) {
     }
   }
 
-  writeNotNull('limit', instance.limit);
-  writeNotNull('offset', instance.offset);
   writeNotNull('title', instance.title);
   writeNotNull('authors', instance.authors);
   writeNotNull('year', instance.year);
@@ -43,6 +41,8 @@ Map<String, dynamic> _$MangaListParamsToJson(MangaListParams instance) {
   writeNotNull('updatedAtSince', instance.updatedAtSince?.toIso8601String());
   writeNotNull('createdAt', _$OrderByEnumMap[instance.createdAt]);
   writeNotNull('updatedAt', _$OrderByEnumMap[instance.updatedAt]);
+  val['limit'] = instance.limit;
+  writeNotNull('offset', instance.offset);
   return val;
 }
 

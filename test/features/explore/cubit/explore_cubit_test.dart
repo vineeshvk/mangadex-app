@@ -9,6 +9,7 @@ import 'package:mangadex/models/master/tag_master_model.dart';
 import 'package:mangadex/models/params/manga/manga_list_params.dart';
 import 'package:mangadex/models/responses/base_response.dart';
 import 'package:mangadex/models/responses/common/error_response.dart';
+import 'package:mangadex/models/responses/common/pagination_handler.dart';
 import 'package:mangadex/repositories/manga/manga_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -16,6 +17,8 @@ typedef MangaBaseResponse = BaseResponse<List<MangaMasterModel>>;
 typedef TagBaseResponse = BaseResponse<List<TagMasterModel>>;
 
 class MockMangaRepository extends Mock implements MangaRepository {}
+
+class MockPagination with PaginationHandler {}
 
 void main() {
   final MangaRepository repo = MockMangaRepository();
@@ -29,6 +32,7 @@ void main() {
     initTest(repo);
     searchMangaTest(repo);
     changeFilterValueTest(repo);
+    fetchMoreManga(repo);
   });
 }
 
@@ -179,6 +183,48 @@ void changeFilterValueTest(MangaRepository repo) {
 
         cubit.changeFilterValue(MangaParamType.createdAt, null);
         expect(cubit.mangaListParams.createdAt, OrderBy.desc);
+      },
+    );
+  });
+}
+
+void fetchMoreManga(MangaRepository repo) {
+  final successResponse = MangaBaseResponse(
+    data: [
+      MangaMasterModel(
+        title: "hello",
+        tags: ["shonen"],
+        originalLanguage: "japan",
+      )
+    ],
+  );
+
+  group("fetchMoreManga logic test", () {
+    blocTest<ExploreCubit, ExploreState>(
+      'on filter change',
+      build: () => ExploreCubit(mangaRepository: repo),
+      act: (cubit) async {
+        successResponse.pagination = MockPagination()
+          ..limit = 1
+          ..offset = 0
+          ..total = 2;
+        when(() => repo.getMangaList(any()))
+            .thenAnswer((_) async => successResponse);
+        await cubit.init();
+        cubit.changeFilterValue(MangaParamType.includedTags, "mystery");
+
+        successResponse.pagination = MockPagination()
+          ..limit = 1
+          ..offset = 1
+          ..total = 2;
+        await cubit.fetchMoreManga();
+      },
+      verify: (cubit) async {
+        expect(cubit.mangaList.length, 2);
+
+        // it's on last page. So shouldn't fetch more.
+        await cubit.fetchMoreManga();
+        expect(cubit.mangaList.length, 2);
       },
     );
   });

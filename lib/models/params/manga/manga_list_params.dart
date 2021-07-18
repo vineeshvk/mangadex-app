@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mangadex/models/responses/common/pagination_handler.dart';
 
 import '../../../core/constants/manga_constants.dart';
 import '../../../core/utils/extensions_util.dart';
@@ -7,12 +8,6 @@ part 'manga_list_params.g.dart';
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class MangaListParams {
-  /// limit for querying default value is `[10]`
-  int? limit;
-
-  /// query from offset; offset > 0
-  int? offset;
-
   /// title of the manga
   String? title;
 
@@ -66,9 +61,16 @@ class MangaListParams {
   /// order the manga list by `[asc, desc]` with updatedAtSince date
   OrderBy? updatedAt;
 
+  @JsonKey(ignore: true)
+  PaginationHandler? pagination;
+
+  /// limit for querying default value is `[15]`
+  int get limit => pagination?.limit ?? 15;
+
+  /// query from offset; offset > 0
+  int? get offset => pagination?.nextPage();
+
   MangaListParams({
-    this.limit,
-    this.offset,
     this.title,
     this.authors,
     this.year,
@@ -85,6 +87,7 @@ class MangaListParams {
     this.updatedAtSince,
     this.createdAt,
     this.updatedAt,
+    this.pagination,
   });
 
   Map<String, dynamic> toJson() => _$MangaListParamsToJson(this);

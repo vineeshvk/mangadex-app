@@ -7,6 +7,7 @@ import '../../../models/master/manga_master_model.dart';
 import '../../../models/master/tag_master_model.dart';
 import '../../../models/params/manga/manga_list_params.dart';
 import '../../../models/responses/base_response.dart';
+import '../../../models/responses/common/pagination_handler.dart';
 import '../../../repositories/manga/manga_repository.dart';
 
 part 'explore_state.dart';
@@ -16,6 +17,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   late TextEditingController searchTextController;
 
   final MangaRepository _mangaRepository;
+  PaginationHandler? _mangaListPagination;
 
   //state values
   List<MangaMasterModel> mangaList = [];
@@ -42,24 +44,38 @@ class ExploreCubit extends Cubit<ExploreState> {
   Future<void> searchManga() async {
     if (mangaListParams.title == searchTextController.text.trim()) return;
 
-    emit(ExploreLoadingState());
     mangaListParams.title = searchTextController.text.trim();
-
-    await _getMangaList();
+    await applyFilter();
   }
 
   void changeFilterValue<T>(MangaParamType type, T value) {
     mangaListParams.setFilter<T>(type, value);
-    emit(ExploreApplyFilterState<T>(value, type));
+    emit(ExploreChangeFilterState<T>(value, type));
   }
 
-  void clearFilter() {
-    mangaListParams = MangaListParams(offset: mangaListParams.offset);
-    emit(ExploreApplyFilterState<bool>(true));
+  Future<void> clearFilter() async {
+    mangaListParams = MangaListParams();
+    await applyFilter();
+  }
+
+  Future<void> applyFilter() async {
+    mangaListParams.pagination = _mangaListPagination = null;
+    emit(ExploreLoadingState());
+    await _getMangaList();
+  }
+
+  Future<void> fetchMoreManga() async {
+    if (_mangaListPagination?.isLastPage ?? false) return;
+
+    mangaListParams.pagination = _mangaListPagination;
+    await _getMangaList(clearPrev: false);
   }
 
   //services
-  Future<void> _getMangaList() async {
+  /// Gets the manga list from repo and set it to the `mangaList` variable.
+  /// Argument `clearPrev` on `true` will clear the previous list from the `mangaList`,
+  /// so when using pagination set the `clearPrev` to `false`
+  Future<void> _getMangaList({bool clearPrev = true}) async {
     final BaseResponse<List<MangaMasterModel>> mangaListResponse =
         await _mangaRepository.getMangaList(mangaListParams);
 
@@ -68,7 +84,10 @@ class ExploreCubit extends Cubit<ExploreState> {
       return;
     }
 
-    mangaList = mangaListResponse.data!;
+    if (clearPrev) mangaList.clear();
+
+    mangaList.addAll(mangaListResponse.data!);
+    _mangaListPagination = mangaListResponse.pagination;
 
     emit(ExploreMangaListLoadedState());
   }

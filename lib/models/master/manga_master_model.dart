@@ -83,7 +83,7 @@ class MangaMasterModel {
 
     if (cacheDataSource != null) {
       try {
-        final String? coverArtCache = cacheDataSource.getMangaCoverArt(this);
+        final String? coverArtCache =  await cacheDataSource.getMangaCoverArt(this);
         coverArtUrl = coverArtCache ?? "";
       } catch (e) {/* */}
     }
