@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mangadex/core/constants/http_constants.dart';
 import 'package:mangadex/core/constants/http_urls.dart';
+import 'package:mangadex/core/exception/api_exception.dart';
 import 'package:mangadex/data_sources/remote_data/manga/chapter_remote_data_source.dart';
+import 'package:mangadex/models/params/manga/chapter_list_params.dart';
 import 'package:mangadex/models/responses/common/data_response.dart';
+import 'package:mangadex/models/responses/manga/chapter_list_response.dart';
 
 import '../../../core/utils.dart/dio_mock.dart';
 import '../../../fixtures/fixtures_reader.dart';
@@ -48,6 +51,45 @@ void main() {
           "result",
           equals("ok"),
         ),
+      );
+    });
+  });
+
+  group("Get chapter list api", () {
+    final params = ChapterListParams(mangaId: "mangaId");
+    test("200 status", () async {
+      dioMock.adapter.onGet(
+        HttpUrls.chapters("mangaId"),
+        (request) {
+          request.reply(200, Fixtures.parse(Fixtures.chapterList));
+        },
+        queryParameters: params.toJson(),
+      );
+
+      expect(
+        await chapterDataSource.getChapterList(params),
+        isA<ChapterListResponse>().having(
+          (res) => res.results,
+          "chapter list",
+          isNotEmpty,
+        ),
+      );
+    });
+
+    test("400 status", () async {
+      dioMock.adapter.onGet(HttpUrls.chapters("mangaId"), (request) {
+        request.throws(
+          400,
+          DioError(
+            requestOptions: RequestOptions(path: HttpUrls.chapters("mangaId")),
+            error: Fixtures.parse(Fixtures.error),
+          ),
+        );
+      }, queryParameters: params.toJson());
+
+      expect(
+        () => chapterDataSource.getChapterList(params),
+        throwsA(isA<ApiException>().having((e) => e.error, "error", isNotNull)),
       );
     });
   });

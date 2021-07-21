@@ -1,0 +1,39 @@
+{
+    "results": [
+        {
+            "result": "ok",
+            "data": {
+                "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                "type": "chapter",
+                "attributes": {
+                    "title": "string",
+                    "volume": "string",
+                    "chapter": "string",
+                    "translatedLanguage": "string",
+                    "hash": "string",
+                    "data": [
+                        "string"
+                    ],
+                    "dataSaver": [
+                        "string"
+                    ],
+                    "uploader": "4df808f4-cdf8-4d1c-80e6-4af8e6ce09b8",
+                    "version": 1,
+                    "createdAt": "string",
+                    "updatedAt": "string",
+                    "publishAt": "string"
+                }
+            },
+            "relationships": [
+                {
+                    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                    "type": "manga",
+                    "attributes": {}
+                }
+            ]
+        }
+    ],
+    "limit": 0,
+    "offset": 0,
+    "total": 0
+}

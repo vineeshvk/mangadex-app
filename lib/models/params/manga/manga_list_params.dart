@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mangadex/models/responses/common/pagination_handler.dart';
 
 import '../../../core/constants/manga_constants.dart';
 import '../../../core/utils/extensions_util.dart';
+import '../../responses/common/pagination_handler.dart';
 
 part 'manga_list_params.g.dart';
 

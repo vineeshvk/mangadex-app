@@ -1,4 +1,5 @@
 import '../../models/common/base_item_model.dart';
+import '../../models/manga/chapter_item_model.dart';
 import '../../models/manga/cover_model.dart';
 import '../../models/manga/manga_item_model.dart';
 import '../../models/manga/tag_model.dart';
@@ -53,5 +54,20 @@ abstract class ModelHelper {
         return CoverModel.fromJson(json2);
       });
     });
+  }
+
+  static List<DataResponse<BaseItemModel<ChapterItemModel>>>
+      fromJsonDataWithBaseItemWithChapter(List<dynamic> json) {
+    return json
+        .map(
+          (json1) => DataResponse.fromJson(
+            json1 as Map<String, dynamic>,
+            (json2) => BaseItemModel.fromJson(
+              json2 ?? {},
+              (json3, id) => ChapterItemModel.fromJson(json3)..id = id,
+            ),
+          ),
+        )
+        .toList();
   }
 }

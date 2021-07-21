@@ -7,6 +7,7 @@ class Fixtures {
   static const mangaList = "manga/manga_list.json";
   static const tagList = "manga/tag_list.json";
   static const cover = "manga/cover.json";
+  static const chapterList = "manga/chapter_list.json";
 
   static const status = "common/status.json";
 
