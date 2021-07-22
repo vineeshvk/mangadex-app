@@ -5,6 +5,7 @@ import '../../core/constants/http_constants.dart';
 import '../../data_sources/cache/manga/manga_cache_data_source.dart';
 import '../../data_sources/remote_data/manga/manga_remote_data_source.dart';
 import '../manga/manga_item_model.dart';
+import 'chapter_master_model.dart';
 
 part 'manga_master_model.g.dart';
 
@@ -43,6 +44,8 @@ class MangaMasterModel {
   set coverUrl(String? url) => _coverUrl.value = url ?? "";
 
   //TODO: add list of chapters
+  @JsonKey(ignore: true)
+  List<ChapterMasterModel> chapters = [];
 
   MangaMasterModel({
     required this.title,
@@ -83,7 +86,8 @@ class MangaMasterModel {
 
     if (cacheDataSource != null) {
       try {
-        final String? coverArtCache =  await cacheDataSource.getMangaCoverArt(this);
+        final String? coverArtCache =
+            await cacheDataSource.getMangaCoverArt(this);
         coverArtUrl = coverArtCache ?? "";
       } catch (e) {/* */}
     }

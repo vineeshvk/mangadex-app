@@ -21,7 +21,7 @@ class ChapterRepository {
       final List<ChapterMasterModel> chapterList =
           _convertToMasterChapterList(chapterResponse, params.mangaId);
 
-      return BaseResponse(data: chapterList);
+      return BaseResponse(data: chapterList, pagination: chapterResponse);
     });
   }
 

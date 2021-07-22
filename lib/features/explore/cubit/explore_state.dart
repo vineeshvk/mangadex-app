@@ -1,7 +1,6 @@
 part of 'explore_cubit.dart';
 
-@immutable
-class ExploreState extends BaseEquatable {}
+abstract class ExploreState extends BaseEquatable {}
 
 class ExploreIdleState extends ExploreState {}
 

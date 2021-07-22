@@ -24,7 +24,7 @@ class ChapterListParams {
 
   List<String> translatedLanguage = ["en"];
 
-  ChapterOrder? order = ChapterOrder();
+  ChapterOrder order = ChapterOrder();
 
   ChapterListParams({required this.mangaId, this.pagination});
 

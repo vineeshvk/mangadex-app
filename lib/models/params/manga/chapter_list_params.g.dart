@@ -20,7 +20,7 @@ Map<String, dynamic> _$ChapterListParamsToJson(ChapterListParams instance) {
 
   writeNotNull('offset', instance.offset);
   val['translatedLanguage'] = instance.translatedLanguage;
-  writeNotNull('order', instance.order?.toJson());
+  val['order'] = instance.order.toJson();
   return val;
 }
 

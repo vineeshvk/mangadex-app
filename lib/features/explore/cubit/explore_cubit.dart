@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 
 import '../../../core/utils/base_equatable.dart';
 import '../../../models/master/manga_master_model.dart';
@@ -72,6 +71,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   //services
+
   /// Gets the manga list from repo and set it to the `mangaList` variable.
   /// Argument `clearPrev` on `true` will clear the previous list from the `mangaList`,
   /// so when using pagination set the `clearPrev` to `false`
