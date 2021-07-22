@@ -13,9 +13,9 @@ ChapterMasterModel _$ChapterMasterModelFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     volume: json['volume'] as String,
     chapter: json['chapter'] as String,
-    data: (json['data'] as List<dynamic>).map((e) => e as String).toList(),
-    dataSaver:
-        (json['dataSaver'] as List<dynamic>).map((e) => e as String).toList(),
+    pages: (json['pages'] as List<dynamic>).map((e) => e as String).toList(),
+    pagesLowQ:
+        (json['pagesLowQ'] as List<dynamic>).map((e) => e as String).toList(),
     hash: json['hash'] as String?,
     translatedLanguage: json['translatedLanguage'] as String?,
     createdAt: json['createdAt'] as String?,
@@ -31,8 +31,8 @@ Map<String, dynamic> _$ChapterMasterModelToJson(ChapterMasterModel instance) =>
       'title': instance.title,
       'volume': instance.volume,
       'chapter': instance.chapter,
-      'data': instance.data,
-      'dataSaver': instance.dataSaver,
+      'pages': instance.pages,
+      'pagesLowQ': instance.pagesLowQ,
       'hash': instance.hash,
       'translatedLanguage': instance.translatedLanguage,
       'createdAt': instance.createdAt,

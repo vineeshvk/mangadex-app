@@ -68,11 +68,17 @@ void main() {
 
       expect(
         await chapterDataSource.getChapterList(params),
-        isA<ChapterListResponse>().having(
-          (res) => res.results,
-          "chapter list",
-          isNotEmpty,
-        ),
+        isA<ChapterListResponse>()
+            .having(
+              (res) => res.results,
+              "chapter list",
+              isNotEmpty,
+            )
+            .having(
+              (res) => res.results.first.data.attributes.id,
+              "chapter id",
+              isNotNull,
+            ),
       );
     });
 
