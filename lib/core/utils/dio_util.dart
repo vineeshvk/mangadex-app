@@ -2,16 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/foundation.dart';
 
 import '../constants/http_constants.dart';
 
-final Dio dio = DioHelper().dio;
-
-class DioHelper {
+class DioUtil {
   Dio dio = Dio();
 
-  DioHelper() {
+  DioUtil() {
     dio.options.baseUrl = HttpConstants.baseUrl;
     dio.options.followRedirects = true;
     dio.options.headers[HttpHeaders.acceptHeader] = "application/json";
@@ -22,6 +21,7 @@ class DioHelper {
     _setupAuthInterceptor();
     //setup log interceptor
     _setupLogInterceptor();
+    // _setupCacheInterceptor();
   }
 
   void _setupAuthInterceptor() {
@@ -32,6 +32,14 @@ class DioHelper {
 
   void _setupLogInterceptor() {
     dio.interceptors.add(LogInterceptor(responseBody: true));
+  }
+
+  void _setupCacheInterceptor() {
+    final intercptor = DioCacheManager(CacheConfig(
+            baseUrl: HttpConstants.baseUrl,
+            defaultMaxAge: const Duration(seconds: 5)))
+        .interceptor;
+    dio.interceptors.add(intercptor as Interceptor);
   }
 }
 

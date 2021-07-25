@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../core/constants/http_constants.dart';
 import '../manga/chapter_item_model.dart';
 
 part 'chapter_master_model.g.dart';
@@ -11,7 +12,7 @@ class ChapterMasterModel {
 
   String title;
   String volume;
-  String chapter;
+  String? chapter;
 
   /// Contains the list of page urls for a particular chapter
   List<String> pages;
@@ -47,20 +48,33 @@ class ChapterMasterModel {
   Map<String, dynamic> toJson() => _$ChapterMasterModelToJson(this);
 
   factory ChapterMasterModel.fromChapterModel(ChapterItemModel chapterModel) {
+    final pages = chapterModel.data
+        .map((page) => _constructPageUrl(page, chapterModel.hash))
+        .toList();
+    final pagesLowQ = chapterModel.dataSaver
+        .map((page) => _constructPageUrl(page, chapterModel.hash, true))
+        .toList();
+
     return ChapterMasterModel(
       id: chapterModel.id,
       mangaId: chapterModel.id,
       title: chapterModel.title,
       volume: chapterModel.volume,
       chapter: chapterModel.chapter,
-      pages: chapterModel.data,
-      pagesLowQ: chapterModel.dataSaver,
+      pages: pages,
+      pagesLowQ: pagesLowQ,
       hash: chapterModel.hash,
       translatedLanguage: chapterModel.translatedLanguage,
       createdAt: chapterModel.createdAt,
       updatedAt: chapterModel.updatedAt,
       publishAt: chapterModel.publishAt,
     );
+  }
+
+  static String _constructPageUrl(String filePath, String hash,
+      [bool isDataSaver = false]) {
+    final quality = isDataSaver ? "data-saver" : "data";
+    return "${HttpConstants.uploadBaseUrl}/$quality/$hash/$filePath";
   }
 
   @override

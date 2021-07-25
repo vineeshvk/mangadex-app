@@ -12,7 +12,7 @@ ChapterMasterModel _$ChapterMasterModelFromJson(Map<String, dynamic> json) {
     mangaId: json['mangaId'] as String?,
     title: json['title'] as String,
     volume: json['volume'] as String,
-    chapter: json['chapter'] as String,
+    chapter: json['chapter'] as String?,
     pages: (json['pages'] as List<dynamic>).map((e) => e as String).toList(),
     pagesLowQ:
         (json['pagesLowQ'] as List<dynamic>).map((e) => e as String).toList(),

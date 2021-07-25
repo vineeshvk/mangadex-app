@@ -8,7 +8,6 @@ part of 'chapter_list_params.dart';
 
 Map<String, dynamic> _$ChapterListParamsToJson(ChapterListParams instance) {
   final val = <String, dynamic>{
-    'mangaId': instance.mangaId,
     'limit': instance.limit,
   };
 
@@ -19,7 +18,7 @@ Map<String, dynamic> _$ChapterListParamsToJson(ChapterListParams instance) {
   }
 
   writeNotNull('offset', instance.offset);
-  val['translatedLanguage'] = instance.translatedLanguage;
+  val['translatedLanguage[0]'] = instance.translatedLanguage;
   val['order'] = instance.order.toJson();
   return val;
 }

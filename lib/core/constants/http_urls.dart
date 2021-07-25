@@ -17,5 +17,5 @@ class HttpUrls {
   static const String login = "/auth/login";
 
   ///Get all the chapters for the provided `mangaId`
-  static String chapters(String mangaId) => "manga/$mangaId/feed";
+  static String chapters(String mangaId) => "/manga/$mangaId/feed";
 }

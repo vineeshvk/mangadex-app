@@ -11,6 +11,7 @@ part 'chapter_list_params.g.dart';
   includeIfNull: false,
 )
 class ChapterListParams {
+  @JsonKey(ignore: true)
   String mangaId;
 
   @JsonKey(ignore: true)
@@ -22,9 +23,11 @@ class ChapterListParams {
   /// query from offset; offset > 0
   int? get offset => pagination?.nextPage();
 
-  List<String> translatedLanguage = ["en"];
+  // some issue with sending list to the api
+  @JsonKey(name: "translatedLanguage[0]")
+  String translatedLanguage = "en";
 
-  ChapterOrder order = ChapterOrder();
+  ChapterOrder order = ChapterOrder(volume: OrderBy.asc, chapter: OrderBy.asc);
 
   ChapterListParams({required this.mangaId, this.pagination});
 

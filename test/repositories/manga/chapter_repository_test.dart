@@ -37,6 +37,7 @@ void main() {
           title: "first chapter",
           volume: "volume",
           chapter: "chapter",
+          hash: "hash",
         )..id = "12345",
         type: MangaRelationshipTypes.chapter,
       ),

@@ -10,11 +10,11 @@ ChapterItemModel _$ChapterItemModelFromJson(Map<String, dynamic> json) {
   return ChapterItemModel(
     title: json['title'] as String,
     volume: json['volume'] as String,
-    chapter: json['chapter'] as String,
+    chapter: json['chapter'] as String?,
+    hash: json['hash'] as String,
     data: (json['data'] as List<dynamic>).map((e) => e as String).toList(),
     dataSaver:
         (json['dataSaver'] as List<dynamic>).map((e) => e as String).toList(),
-    hash: json['hash'] as String?,
     translatedLanguage: json['translatedLanguage'] as String?,
   )
     ..id = json['id'] as String?

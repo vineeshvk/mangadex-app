@@ -8,10 +8,10 @@ class ChapterItemModel {
 
   String title;
   String volume;
-  String chapter;
+  String? chapter;
 
   String? translatedLanguage;
-  String? hash;
+  String hash;
 
   List<String> data;
   List<String> dataSaver;
@@ -24,9 +24,9 @@ class ChapterItemModel {
     required this.title,
     required this.volume,
     required this.chapter,
+    required this.hash,
     this.data = const [],
     this.dataSaver = const [],
-    this.hash,
     this.translatedLanguage,
   });
 
