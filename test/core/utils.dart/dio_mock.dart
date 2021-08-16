@@ -15,7 +15,7 @@ class DioMock {
     dio.options.followRedirects = true;
     dio.options.validateStatus = (status) => status! <= 400;
 
-    adapter = DioAdapter();
+    adapter = DioAdapter(dio: Dio());
     dio.httpClientAdapter = adapter;
 
     _setupAuthInterceptor();
