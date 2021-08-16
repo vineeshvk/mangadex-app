@@ -21,7 +21,7 @@ class DioUtil {
     _setupAuthInterceptor();
     //setup log interceptor
     _setupLogInterceptor();
-    // _setupCacheInterceptor();
+    _setupCacheInterceptor();
   }
 
   void _setupAuthInterceptor() {

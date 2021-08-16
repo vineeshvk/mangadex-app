@@ -43,7 +43,6 @@ class MangaMasterModel {
   @JsonKey(name: "coverUrl")
   set coverUrl(String? url) => _coverUrl.value = url ?? "";
 
-  //TODO: add list of chapters
   @JsonKey(ignore: true)
   List<ChapterMasterModel> chapters = [];
 
