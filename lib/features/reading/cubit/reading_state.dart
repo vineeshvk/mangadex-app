@@ -5,10 +5,10 @@ abstract class ReadingState extends BaseEquatable {}
 class ReadingIdleState extends ReadingState {}
 
 class ReadingChapterChangedState extends ReadingState {
-  final int chapterIndex;
+  final ChapterMasterModel chapter;
 
-  ReadingChapterChangedState(this.chapterIndex);
+  ReadingChapterChangedState(this.chapter);
 
   @override
-  List<Object?> get props => [chapterIndex];
+  List<Object?> get props => [chapter];
 }

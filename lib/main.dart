@@ -19,5 +19,6 @@ Future<void> main() async {
       title: "juliet", tags: ["romance"], originalLanguage: "jp");
   manga.chapters = list.data!;
 
-  runApp(MaterialApp(home: ReadingScreen(chapterIndex: 3, manga: manga)));
+  runApp(MaterialApp(
+      home: ReadingScreen(initialChapter: manga.chapters.last, manga: manga)));
 }

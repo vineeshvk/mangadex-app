@@ -46,6 +46,31 @@ class MangaMasterModel {
   @JsonKey(ignore: true)
   List<ChapterMasterModel> chapters = [];
 
+  List<PagePresenter> get chapterPresenter {
+    /// The `PagePresenter.end()` is to indicate the beginning of the manga.
+    final List<PagePresenter> presenters = [PagePresenter.end()];
+
+    for (int index = 0; index < chapters.length; index++) {
+      final chapter = chapters[index];
+
+      presenters.addAll(chapter.pagePresenter);
+
+      // if it's not the beginning or the ending then add the title card
+      if (index != chapters.length - 1) {
+        presenters.add(
+          PagePresenter.titleCard(
+            chapterTitle: [chapter, chapters[index + 1]],
+          ),
+        );
+      }
+    }
+
+    /// To indicate the end of the manga.
+    presenters.add(PagePresenter.end());
+
+    return presenters;
+  }
+
   MangaMasterModel({
     required this.title,
     required this.tags,

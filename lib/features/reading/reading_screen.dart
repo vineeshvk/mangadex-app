@@ -9,72 +9,90 @@ import 'cubit/reading_cubit.dart';
 
 class ReadingScreen extends StatelessWidget {
   final MangaMasterModel manga;
-  final int chapterIndex;
+  final ChapterMasterModel initialChapter;
 
   const ReadingScreen({
     Key? key,
     required this.manga,
-    required this.chapterIndex,
+    required this.initialChapter,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MProvider<ReadingCubit>(
       create: (context) =>
-          ReadingCubit(manga: manga, chapterIndex: chapterIndex)..init(),
+          ReadingCubit(manga: manga, currentChapter: initialChapter)..init(),
       builder: (context) {
         final readingCubit = context.read<ReadingCubit>();
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Reader"),
+            backgroundColor: Colors.black,
+            title: MSelector<ReadingCubit, String>(
+              selector: (cubit) => cubit.currentChapter.title,
+              builder: (context, value) => Text(value),
+            ),
           ),
-          body: MSelector<ReadingCubit, int>(
-            selector: (cubit) => cubit.chapterIndex,
-            builder: (context, chapterIndex) {
-              final pages = readingCubit.currentChapter.pages;
+          body: MSelector<ReadingCubit, List<PagePresenter>>(
+            selector: (cubit) => cubit.manga.chapterPresenter,
+            builder: (context, chapterPresenter) {
+              return PhotoViewGestureDetectorScope(
+                axis: Axis.horizontal,
+                child: PageView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: chapterPresenter.length,
+                  controller: readingCubit.pageController,
+                  itemBuilder: (context, index) {
+                    final pagePresenter = chapterPresenter[index];
 
-              return PageView.builder(
-                controller: readingCubit.pageController,
-                itemCount: pages.length + 4,
-                itemBuilder: (context, index) {
-                  final int pageIndex = index - 2;
+                    if (pagePresenter.isTitleCard) {
+                      if (pagePresenter.isLastPage) {
+                        return _LastPage(isBeginning: index == 0);
+                      }
 
-                  if (pages.length <= pageIndex || pageIndex < 0) {
-                    final isNext = !(pageIndex < 0);
-                    final otherChapter = readingCubit
-                        .manga.chapters[chapterIndex + (isNext ? 1 : -1)];
-                    return _TransitionMediatorPage(
-                      isNext: isNext,
-                      otherChapter: otherChapter,
-                      currentChapter: readingCubit.currentChapter,
+                      return _TransitionMediatorPage(
+                        currentChapter: pagePresenter.chapterTitle!.first,
+                        otherChapter: pagePresenter.chapterTitle!.last,
+                        isNext: true,
+                      );
+                    }
+
+                    return _MangaPageView(
+                      url: pagePresenter.pageUrl ?? "",
+                      page: pagePresenter.pageNumber,
                     );
-                  }
-
-                  return _MangaPageView(
-                    url: pages[pageIndex],
-                    page: pageIndex,
-                  );
-                },
-                onPageChanged: (index) {
-                  final int pageIndex = index - 2;
-
-                  if (pages.length < pageIndex && readingCubit.hasNext) {
-                    readingCubit.nextChapter();
-                  } else if (pageIndex == -2 && readingCubit.hasPrevious) {
-                    readingCubit.previousChapter();
-                  } else {
-                    precacheImage(
-                        CachedNetworkImageProvider(pages[pageIndex + 1]),
-                        context);
-                  }
-                },
+                  },
+                  onPageChanged: (index) {
+                    readingCubit.onPageChange(index);
+                    precacheImageList(chapterPresenter, index, context);
+                  },
+                ),
               );
             },
           ),
         );
       },
     );
+  }
+
+  /// `precacheImageList` is for precaching the images to a certain extent.
+  /// The amount of precaching is configurable via `count` argument. The default value is `5`.
+  void precacheImageList(
+    List<PagePresenter> presenters,
+    int page,
+    BuildContext context, {
+    int count = 5,
+  }) {
+    for (int i = page + 1; i <= (page + count) && i < presenters.length; i++) {
+      final nextPageUrl = presenters[i].pageUrl;
+
+      if (nextPageUrl != null) {
+        precacheImage(
+          CachedNetworkImageProvider(nextPageUrl),
+          context,
+        );
+      }
+    }
   }
 }
 
@@ -89,7 +107,8 @@ class _MangaPageView extends StatelessWidget {
     return Stack(
       children: [
         PhotoView(
-          backgroundDecoration: const BoxDecoration(color: Colors.white),
+          minScale: PhotoViewComputedScale.contained,
+          backgroundDecoration: const BoxDecoration(color: Colors.black),
           imageProvider: CachedNetworkImageProvider(url),
           loadingBuilder: (context, event) {
             return Center(
@@ -104,8 +123,11 @@ class _MangaPageView extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
             padding: const EdgeInsets.all(5),
-            color: Colors.white,
-            child: Text(page.toString()),
+            color: Colors.black,
+            child: Text(
+              page.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         )
       ],
@@ -167,6 +189,33 @@ class _TransitionMediatorPage extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LastPage extends StatelessWidget {
+  final bool isBeginning;
+
+  const _LastPage({Key? key, this.isBeginning = false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey[900],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            isBeginning
+                ? "This is the beginning of the manga"
+                : "No more pages left in the manga",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          )
         ],
       ),
     );
